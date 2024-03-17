@@ -650,7 +650,7 @@ spawn(function()
 while wait() do
 if tab2flags.rank == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#game:GetService("ReplicatedStorage").Ranks[tab2flags.Sword]:GetChildren() do
+for i = 1,#game:GetService("ReplicatedStorage").Ranks[tab2flags.zone]:GetChildren() do
 game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",island[i].Name)
 end
 end
@@ -871,7 +871,7 @@ local bv = p:FindFirstChildOfClass("BodyVelocity")
 getPlayers(function(v)
 if v.Name ~= self.Name then
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-bv.Velocity = v.Character.HumanoidRootPart.Position * velocity
+--bv.Velocity = v.Character.HumanoidRootPart.Position * velocity
 end
 end)
 end
