@@ -1,5 +1,3 @@
--- Distribution by Cheat.gg
-
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sidhsksjsjsh/VAPE-UI-MODDED/main/.lua"))()
 local MainAuto = {
   ["Good Karma"] = false,
@@ -12,9 +10,9 @@ local MainAuto = {
   ["EBoss"] = false,
   ["ABoss"] = false,
   ["Chi"] = false,
-  ["Hoop"] = false,
-  
+  ["Hoop"] = false
 }
+
 local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
@@ -338,21 +336,60 @@ T6:Button("Tornado ( Bad )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174, 16872.0938, -9.9906435)
 end)
 
+--[[
+local tab3flags = {
+  pets = {
+    egg = "Blue Crystal",
+    openegg = false,
+    evolve = false,
+    eternalise = false,
+    immortalize = false,
+    legend = false
+  },
+  other = {
+    fast = false,
+    hitbox = false, -- no
+    invis = false, -- no
+    maxj = false -- no
+  },
+  sell = {
+    basic = false,
+    advanced = false,
+    rare = false,
+    epic = false,
+    unique = false,
+    omega = false
+  }
+}
+]]
 
 spawn(function()
-while wait(.01) do
-if Misc.flags.TEgg then
-local oh1 = "openCrystal"
-local oh2 = _G.Egg
-print("Purchased", _G.Egg)
-game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer(oh1, oh2)
+while wait() do
+if tab3flags.pets.openegg == true then
+game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",tab3flags.pets.egg)
 end
 end
 end)
 
+--[[
+local MainAuto = {
+  ["Good Karma"] = false,
+  ["Bad Karma"] = false,
+  ["Swing"] = false,
+  ["Sell"] = false,
+  ["Full Sell"] = false,
+  ["L"] = false,
+  ["Boss"] = false,
+  ["EBoss"] = false,
+  ["ABoss"] = false,
+  ["Chi"] = false,
+  ["Hoop"] = false
+}
+]]
+
 spawn(function()
 while wait() do
-if Farming.flags.Swing then
+if MainAuto["Swing"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then 
 game.Players.LocalPlayer.ninjaEvent:FireServer("swingKatana")
@@ -373,11 +410,11 @@ end
 end)
 
 spawn(function()
-while wait(0.01) do
-if Farming.flags.Sell then
+while wait() do
+if MainAuto["Sell"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
-wait(.05)
+wait()
 game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Workspace.Part.CFrame
 end
 end
@@ -385,12 +422,12 @@ end
 end)
 
 spawn(function()
-while wait(0.01) do
-if Farming.flags.FullSell then 
+while wait() do
+if MainAuto["Full Sell"] == true then 
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if player.PlayerGui.gameGui.maxNinjitsuMenu.Visible == true then
 game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
-wait(.05)
+wait()
 game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Workspace.Part.CFrame
 end
 end
@@ -399,21 +436,20 @@ end
 end)
 
 
-spawn(function()
+--[[spawn(function()
 while wait(0.4) do
 if Farming.flags.GK then
 loadstring(game:HttpGet(('https://pastebin.com/raw/AaqHqPyw'),true))()
 end
 end
-end)
+end)]]
 
 spawn(function()
-while wait(0.00011) do
-if Farming.flags.L then
-local plr = game.Players.LocalPlayer
+while wait() do
+if MainAuto["L"] == true then
 for _,v in pairs(workspace.Hoops:GetDescendants()) do
 if v.ClassName == "MeshPart" then
-v.touchPart.CFrame = plr.Character.HumanoidRootPart.CFrame
+v.touchPart.CFrame = self.Character.HumanoidRootPart.CFrame
 end
 end
 end
@@ -421,17 +457,17 @@ end
 end)
 
 
-spawn(function()
+--[[spawn(function()
 while wait(0.4) do
 if Farming.flags.BK then
 loadstring(game:HttpGet(('https://pastebin.com/raw/wEEB3nQt'),true))()  
 end
 end
-end)
+end)]]
 
 spawn(function()
-while wait(.001) do
-if Farming.flags.Boss then
+while wait() do
+if MainAuto["Boss"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game:GetService("Workspace").bossFolder:WaitForChild("RobotBoss"):WaitForChild("HumanoidRootPart") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.RobotBoss.HumanoidRootPart.CFrame
@@ -460,8 +496,8 @@ end)
 
 
 spawn(function()
-while wait(.001) do
-if Farming.flags.EBoss then
+while wait() do
+if MainAuto["EBoss"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game:GetService("Workspace").bossFolder:WaitForChild("EternalBoss"):WaitForChild("HumanoidRootPart") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.EternalBoss.HumanoidRootPart.CFrame
@@ -489,8 +525,8 @@ end
 end)
 
 spawn(function()
-while wait(.001) do
-if Farming.flags.ABoss then
+while wait() do
+if MainAuto["ABoss"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game:GetService("Workspace").bossFolder:WaitForChild("AncientMagmaBoss"):WaitForChild("HumanoidRootPart") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.AncientMagmaBoss.HumanoidRootPart.CFrame
@@ -517,14 +553,23 @@ end
 end
 end)
 
+--[[
+local tab2flags = {
+  Sword = false,
+  belt = false,
+  rank = false,
+  skill = false,
+  shuriken = false
+}
+]]
+
+local oh2 = {"Ground","Astral Island","Space Island","Tundra Island","Eternal Island","Sandstorm","Thunderstorm","Ancient Inferno Island"}
 spawn(function()
-while wait(0.5) do
-if AutoBuy.flags.Sword then
+while wait() do
+if tab2flags.Sword == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-local oh1 = "buyAllSwords"
-local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island"}
 for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllSwords",oh2[i])
 end
 end
 end
@@ -532,13 +577,11 @@ end
 end)
 
 spawn(function()
-while wait(0.5) do
-if AutoBuy.flags.Belt then
+while wait() do
+if tab2flags.belt == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-local oh1 = "buyAllBelts"
-local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island"}
 for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllBelts",oh2[i])
 end
 end
 end
@@ -546,13 +589,11 @@ end
 end)
 
 spawn(function()
-while wait(0.5) do
-if AutoBuy.flags.Skill then
+while wait() do
+if tab2flags.skill == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-local oh1 = "buyAllSkills"
-local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island"}
 for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllSkills",oh2[i])
 end
 end
 end
@@ -562,13 +603,11 @@ end)
             
 
 spawn(function()
-while wait(0.5) do
-if AutoBuy.flags.Rank then
+while wait() do
+if tab2flags.rank == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-local oh1 = "buyRank"
-local oh2 = game:GetService("ReplicatedStorage").Ranks.Ground:GetChildren()
-for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i].Name)
+for i = 1,#game:GetService("ReplicatedStorage").Ranks.Ground:GetChildren() do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",oh2[i].Name)
 end
 end
 end
@@ -576,23 +615,37 @@ end
 end)
 
 spawn(function()
-while wait(0.5) do
-if AutoBuy.flags.Shurikens then
+while wait() do
+if tab2flags.shuriken == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-local oh1 = "buyAllShurikens"
-local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island"}
 for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllShurikens",oh2[i])
 end
 end
 end
 end
 end)
 
+--[[
+local MainAuto = {
+  ["Good Karma"] = false,
+  ["Bad Karma"] = false,
+  ["Swing"] = false,
+  ["Sell"] = false,
+  ["Full Sell"] = false,
+  ["L"] = false,
+  ["Boss"] = false,
+  ["EBoss"] = false,
+  ["ABoss"] = false,
+  ["Chi"] = false,
+  ["Hoop"] = false
+}
+]]
+
 spawn(function()
-while wait(0.033) do 
+while wait() do 
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-if Farming.flags.Chi then
+if MainAuto["Chi"] == true then
 for i,v in pairs(game.Workspace.spawnedCoins.Valley:GetChildren()) do
 if v.Name == "Blue Chi Crate" then 
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
@@ -604,48 +657,41 @@ end
 end
 end)
 
-
+--[[
+local tab3flags = {
+  pets = {
+    egg = "Blue Crystal",
+    openegg = false,
+    evolve = false,
+    eternalise = false,
+    immortalize = false,
+    legend = false
+  },
+  other = {
+    fast = false,
+    hitbox = false, -- no
+    invis = false, -- no
+    maxj = false -- no
+  },
+  sell = {
+    basic = false,
+    advanced = false,
+    rare = false,
+    epic = false,
+    unique = false,
+    omega = false
+  }
+}
+tab3flags.other.fast
+]]
 
 spawn(function()
-while wait(3) do
-if Misc.flags.Evolve then
+while wait() do
+if tab3flags.pets.evolve == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
 for i,x in pairs(v:GetChildren()) do
-local oh1 = "evolvePet"
-local oh2 = x.Name
-game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer(oh1, oh2)
-end
-end
-end
-end
-end
-end)
-spawn(function()
-while wait(3) do
-if Misc.flags.Eternalise then
-if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
-for i,x in pairs(v:GetChildren()) do
-local oh1 = "eternalizePet"
-local oh2 = x.Name
-game:GetService("ReplicatedStorage").rEvents.petEternalizeEvent:FireServer(oh1, oh2)
-end
-end
-end
-end
-end
-end)
-
-spawn(function()
-while wait(3) do
-if Misc.flags.Immortalize then
-if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
-for i,x in pairs(v:GetChildren()) do
-local oh1 = "immortalizePet"
-local oh2 = x.Name
-game:GetService("ReplicatedStorage").rEvents.petImmortalizeEvent:FireServer(oh1, oh2)
+game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet",x.Name)
 end
 end
 end
@@ -654,14 +700,40 @@ end
 end)
 
 spawn(function()
-while wait(3) do
-if Misc.flags.Legend then
+while wait() do
+if tab3flags.pets.eternalise == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
 for i,x in pairs(v:GetChildren()) do
-local oh1 = "legendPet"
-local oh2 = x.Name
-game:GetService("ReplicatedStorage").rEvents.petLegendEvent:FireServer(oh1, oh2)
+game:GetService("ReplicatedStorage").rEvents.petEternalizeEvent:FireServer("eternalizePet",x.Name)
+end
+end
+end
+end
+end
+end)
+
+spawn(function()
+while wait() do
+if tab3flags.pets.immortalize == true then
+if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
+for i,x in pairs(v:GetChildren()) do
+game:GetService("ReplicatedStorage").rEvents.petImmortalizeEvent:FireServer("immortalizePet",x.Name)
+end
+end
+end
+end
+end
+end)
+
+spawn(function()
+while wait() do
+if tab3flags.pets.legend == true then
+if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
+for i,x in pairs(v:GetChildren()) do
+game:GetService("ReplicatedStorage").rEvents.petLegendEvent:FireServer("legendPet",x.Name)
 end
 end
 end
@@ -670,11 +742,11 @@ end
 end)
 
 spawn(function() 
-while wait(1) do 
-if Misc.flags.SBasic then
+while wait() do 
+if tab3flags.sell.basic == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game.Players.LocalPlayer.petsFolder.Basic:GetChildren()) do
-game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet",v)
 end
 end
 end
@@ -682,8 +754,8 @@ end
 end)
 
 spawn(function() 
-while wait(1) do 
-if Misc.flags.SAdvanced then
+while wait() do 
+if tab3flags.sell.advanced == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game.Players.LocalPlayer.petsFolder.Advanced:GetChildren()) do
 game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
@@ -694,8 +766,8 @@ end
 end)
 
 spawn(function() 
-while wait(1) do 
-if Misc.flags.SRare then
+while wait() do 
+if tab3flags.sell.rare == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game.Players.LocalPlayer.petsFolder.Rare:GetChildren()) do
 game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
@@ -706,8 +778,8 @@ end
 end)
 
 spawn(function() 
-while wait(1) do 
-if Misc.flags.SEpic then
+while wait() do 
+if tab3flags.sell.epic == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game.Players.LocalPlayer.petsFolder.Epic:GetChildren()) do
 game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
@@ -718,8 +790,8 @@ end
 end)
 
 spawn(function() 
-while wait(1) do 
-if Misc.flags.SUnique then
+while wait() do 
+if tab3flags.sell.unique == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game.Players.LocalPlayer.petsFolder.Unique:GetChildren()) do
 game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
@@ -730,8 +802,8 @@ end
 end)
 
 spawn(function() 
-while wait(1) do 
-if Misc.flags.SOmega then
+while wait() do 
+if tab3flags.sell.omega == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 for i,v in pairs(game.Players.LocalPlayer.petsFolder.Omega:GetChildren()) do
 game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
@@ -742,13 +814,13 @@ end
 end)
 
 spawn(function() 
-while wait(.001) do 
-if Misc.flags.Fast then
+while wait() do 
+if tab3flags.other.fast == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 local plr = game.Players.LocalPlayer
 local Mouse = plr:GetMouse()
 local velocity = 1000
-for _,p in pairs(game.Workspace.shurikensFolder:GetChildren()) do
+for _,p in pairs(workspace.shurikensFolder:GetChildren()) do
 if p.Name == "Handle" then
 if p:FindFirstChild("BodyVelocity") then
 local bv = p:FindFirstChildOfClass("BodyVelocity")
@@ -763,7 +835,7 @@ end
 end)
 
 local vu = game:GetService("VirtualUser")
-game:GetService("Players").LocalPlayer.Idled:connect(
+self.Idled:connect(
 function()
 vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 wait(1)
