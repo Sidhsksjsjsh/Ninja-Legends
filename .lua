@@ -20,6 +20,7 @@ local workspace = game:GetService("Workspace")
 local island = {}
 local handleegg = {}
 
+lib:notify("Loading VService...",10)
 lib:AddTable(workspace.islandUnlockParts,island)
 lib:AddTable(workspace.mapCrystalsFolder,handleegg)
 
@@ -86,32 +87,37 @@ local tab2flags = {
   belt = false,
   rank = false,
   skill = false,
-  shuriken = false
+  shuriken = false,
+  zone = island[1]
 }
 
 local T2 = wndw:Tab("Buy")
 
-T2:Toggle("Auto sword",false,function(value) -- AutoBuy.flags.Sword
+T2:Dropdown("Choose an island to buy a rank",island,function(value)
+    tab2flags.zone = value
+end)
+
+T2:Toggle("Auto buy sword",false,function(value) -- AutoBuy.flags.Sword
     tab2flags.Sword = value
 end)
 
 --local Belt = AutoBuy:Toggle("Auto-Belt", {flag = "Belt"}) AutoBuy.flags.Belt
-T2:Toggle("Auto belt",false,function(value)
+T2:Toggle("Auto buy belt",false,function(value)
     tab2flags.belt = value
 end)
 
 --local Rank = AutoBuy:Toggle("Auto-Rank", {flag = "Rank"}) AutoBuy.flags.Rank
-T2:Toggle("Auto rank",false,function(value)
+T2:Toggle("Auto buy rank [ Selected island ]",false,function(value)
     tab2flags.rank = value
 end)
 
 --local Skill = AutoBuy:Toggle("Auto-Skills", {flag = "Skill"}) AutoBuy.flags.Skill
-T2:Toggle("Auto skills",false,function(value)
+T2:Toggle("Auto buy skill",false,function(value)
     tab2flags.skill = value
 end)
 
 --local Shuriken = AutoBuy:Toggle("Auto-Shurikens", {flag = "Shurikens"}) AutoBuy.flags.Shurikens
-T2:Toggle("Auto shuriken",false,function(value)
+T2:Toggle("Auto buy shuriken",false,function(value)
     tab2flags.shuriken = value
 end)
 
@@ -137,7 +143,8 @@ local tab3flags = {
     fast = false,
     hitbox = false, -- no
     invis = false, -- no
-    maxj = false -- no
+    maxj = false, -- no
+    corbs = false
   },
   sell = {
     basic = false,
@@ -242,6 +249,16 @@ T3:Toggle("Max jump",false,function(value)
     while wait() do
       if tab3flags.other.maxj == false then break end
        self.multiJumpCount.Value = 9e9
+    end
+end)
+
+T3:Toggle("Auto collect all orbs",false,function(value)
+    tab3flags.other.corbs = value
+    while wait() do
+      if tab3flags.other.corbs == false then break end
+       for i,v in pairs(workspace["soulPartsFolder"]:GetChildren()) do
+        self["ninjaEvent"]:FireServer("collectSoul",v)
+      end
     end
 end)
 
@@ -633,8 +650,8 @@ spawn(function()
 while wait() do
 if tab2flags.rank == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#island do --#game:GetService("ReplicatedStorage").Ranks.Ground:GetChildren() do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",island[i])
+for i = 1,#game:GetService("ReplicatedStorage").Ranks[tab2flags.Sword]:GetChildren() do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",island[i].Name)
 end
 end
 end
@@ -854,7 +871,7 @@ local bv = p:FindFirstChildOfClass("BodyVelocity")
 getPlayers(function(v)
 if v.Name ~= self.Name then
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-bv.Velocity = v.Character.HumanoidRootPart.CFrame.LookVector * velocity
+bv.Velocity = v.Character.HumanoidRootPart.Position * velocity
 end
 end)
 end
@@ -865,6 +882,7 @@ end
 end
 end)
 
+lib:notify("Success... Enjoy!",10)
 local vu = game:GetService("VirtualUser")
 self.Idled:connect(
 function()
