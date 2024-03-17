@@ -17,7 +17,9 @@ local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
+local island = {}
 
+lib:AddTable(workspace.islandUnlockParts,island)
 T1:Toggle("Auto good-karma",false,function(value)
     MainAuto["Good Karma"] = value
 end)
@@ -235,29 +237,16 @@ T3:Toggle("Max jump",false,function(value)
     tab3flags.other.maxj = value
     while wait() do
       if tab3flags.other.maxj == false then break end
-       self.multiJumpCount.Value = "50"
+       self.multiJumpCount.Value = 9e9
     end
 end)
 
 local T4 = wndw:Tab("Island")
 T4:Button("Unlock islands",function()
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Enchanted Island"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Astral Island"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Mystical Island"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Space Island"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Tundra Island"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Eternal Island"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Sandstorm"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Thunderstorm"].CFrame
-    wait(.7)
-    self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Ancient Inferno Island"].CFrame
+    for array = 1,#island do
+       self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts[island[array]].CFrame
+       wait(.7)
+    end
 end)
 
 local T5 = wndw:Tab("Popups")
@@ -425,7 +414,7 @@ spawn(function()
 while wait() do
 if MainAuto["Full Sell"] == true then 
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-if player.PlayerGui.gameGui.maxNinjitsuMenu.Visible == true then
+if self.PlayerGui.gameGui.maxNinjitsuMenu.Visible == true then
 game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
 wait()
 game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Workspace.Part.CFrame
@@ -471,12 +460,12 @@ if MainAuto["Boss"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game:GetService("Workspace").bossFolder:WaitForChild("RobotBoss"):WaitForChild("HumanoidRootPart") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.RobotBoss.HumanoidRootPart.CFrame
-if player.Character:FindFirstChildOfClass("Tool") then
-player.Character:FindFirstChildOfClass("Tool"):Activate()
+if self.Character:FindFirstChildOfClass("Tool") then
+self.Character:FindFirstChildOfClass("Tool"):Activate()
 else
-for i,v in pairs(player.Backpack:GetChildren()) do
+for i,v in pairs(self.Backpack:GetChildren()) do
 if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then
-v.attackTime.Value = 0.2
+v.attackTime.Value = 0
 player.Character.Humanoid:EquipTool(v)
 if attackfar then
 for i,v in pairs(player.Backpack:GetChildren()) do
@@ -501,13 +490,13 @@ if MainAuto["EBoss"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game:GetService("Workspace").bossFolder:WaitForChild("EternalBoss"):WaitForChild("HumanoidRootPart") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.EternalBoss.HumanoidRootPart.CFrame
-if player.Character:FindFirstChildOfClass("Tool") then
-player.Character:FindFirstChildOfClass("Tool"):Activate()
+if self.Character:FindFirstChildOfClass("Tool") then
+self.Character:FindFirstChildOfClass("Tool"):Activate()
 else
-for i,v in pairs(player.Backpack:GetChildren()) do
+for i,v in pairs(self.Backpack:GetChildren()) do
 if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then
-v.attackTime.Value = 0.2
-player.Character.Humanoid:EquipTool(v)
+v.attackTime.Value = 0
+self.Character.Humanoid:EquipTool(v)
 if attackfar then
 for i,v in pairs(player.Backpack:GetChildren()) do
 if v.ClassName == "Tool" and v:FindFirstChild("attackShurikenScript") then
@@ -530,12 +519,12 @@ if MainAuto["ABoss"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game:GetService("Workspace").bossFolder:WaitForChild("AncientMagmaBoss"):WaitForChild("HumanoidRootPart") then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.AncientMagmaBoss.HumanoidRootPart.CFrame
-if player.Character:FindFirstChildOfClass("Tool") then
-player.Character:FindFirstChildOfClass("Tool"):Activate()
+if self.Character:FindFirstChildOfClass("Tool") then
+self.Character:FindFirstChildOfClass("Tool"):Activate()
 else
-for i,v in pairs(player.Backpack:GetChildren()) do
+for i,v in pairs(self.Backpack:GetChildren()) do
 if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then
-v.attackTime.Value = 0.2
+v.attackTime.Value = 0
 player.Character.Humanoid:EquipTool(v)
 if attackfar then
 for i,v in pairs(player.Backpack:GetChildren()) do
@@ -568,8 +557,8 @@ spawn(function()
 while wait() do
 if tab2flags.Sword == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllSwords",oh2[i])
+for i = 1,#island do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllSwords",island[i])
 end
 end
 end
@@ -580,8 +569,8 @@ spawn(function()
 while wait() do
 if tab2flags.belt == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllBelts",oh2[i])
+for i = 1,#island do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllBelts",island[i])
 end
 end
 end
@@ -592,8 +581,8 @@ spawn(function()
 while wait() do
 if tab2flags.skill == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllSkills",oh2[i])
+for i = 1,#island do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllSkills",island[i])
 end
 end
 end
@@ -618,8 +607,8 @@ spawn(function()
 while wait() do
 if tab2flags.shuriken == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#oh2 do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllShurikens",oh2[i])
+for i = 1,#island do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyAllShurikens",island[i])
 end
 end
 end
@@ -648,8 +637,8 @@ if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if MainAuto["Chi"] == true then
 for i,v in pairs(game.Workspace.spawnedCoins.Valley:GetChildren()) do
 if v.Name == "Blue Chi Crate" then 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
-wait(.16)
+v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait()
 end
 end
 end
