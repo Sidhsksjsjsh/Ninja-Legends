@@ -268,7 +268,7 @@ T6:Button("Shop",function()
     self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").shopAreaCircle5.circleInner.CFrame
 end)
 
-T6:Button("KOTH",function()
+T6:Button("King Of The hill",function()
     self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").kingOfTheHillPart.CFrame
 end)
 
@@ -315,7 +315,7 @@ end)
 
 T6:Label("--== Training Areas ==--")
 
-T6:Button("Myatical Water ( Good )",function()
+T6:Button("Mystical Water ( Good )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881, 8824.53809, 114.271019)
 end)
 
@@ -340,6 +340,7 @@ local shursys = {
 
 T7:Toggle("Auto throw + aimbot",false,function(value)
     shursys.aimbot = value
+    lib:notify("Aimbot activated.",10)
     while wait() do
       if shursys.aimbot == false then break end
       getPlayers(function(v)
@@ -632,8 +633,8 @@ spawn(function()
 while wait() do
 if tab2flags.rank == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#game:GetService("ReplicatedStorage").Ranks.Ground:GetChildren() do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",oh2[i].Name)
+for i = 1,#island do --#game:GetService("ReplicatedStorage").Ranks.Ground:GetChildren() do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",island[i])
 end
 end
 end
