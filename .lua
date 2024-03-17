@@ -18,7 +18,7 @@ local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
-local island = {}
+local island = {"Ground"}
 local handleegg = {}
 
 lib:notify("Loading VService...",10)
