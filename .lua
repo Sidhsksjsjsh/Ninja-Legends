@@ -18,8 +18,17 @@ local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
 local island = {}
+local handleegg = {}
 
 lib:AddTable(workspace.islandUnlockParts,island)
+lib:AddTable(workspace.mapCrystalsFolder,handleegg)
+
+local function getPlayers(funct)
+  for i,v in pairs(game.Players:GetPlayers()) do
+    funct(v)
+  end
+end
+
 T1:Toggle("Auto good-karma",false,function(value)
     MainAuto["Good Karma"] = value
 end)
@@ -141,8 +150,8 @@ local tab3flags = {
     omega = false
   }
 }
-
-T3:Dropdown("Eggs",{"Blue Crystal","Purple Crystal","Orange Crystal","Enchanted Crystal","Astral Crystal","Golden Crystal","Inferno Crystal","Galaxy Crystal","Frozen Crystal","Eternal Crystal","Storm Crystal","Thunder Crystal","Legends Crystal","Eternity Crystal"},function(value)
+-- {"Blue Crystal","Purple Crystal","Orange Crystal","Enchanted Crystal","Astral Crystal","Golden Crystal","Inferno Crystal","Galaxy Crystal","Frozen Crystal","Eternal Crystal","Storm Crystal","Thunder Crystal","Legends Crystal","Eternity Crystal"}
+T3:Dropdown("Eggs",handleegg,function(value)
     tab3flags.pets.egg = value
 end)
 
@@ -203,9 +212,6 @@ end)
 T3:Label("--== OTHER STUFF ==--")
 
 --local FastThing = Misc:Toggle("Fast Shuriken", {flag = "Fast"}) -- AutoBuy.flags.Belt
-T3:Toggle("Auto fast shuriken",false,function(value)
-    tab3flags.other.fast = value
-end)
 
 T3:Toggle("Big head all",false,function(value)
     tab3flags.other.hitbox = value
@@ -270,10 +276,12 @@ end)
 
 T6:Label("--== Worlds ==--")
 
-T6:Button("Enchanted island",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Enchanted Island"].CFrame
+for inject = 1,#island do
+T6:Button(island[inject],function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts[island[inject]].CFrame
 end)
-
+end
+--[[
 T6:Button("Astral island",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Astral Island"].CFrame
 end)
@@ -305,7 +313,7 @@ end)
 T6:Button("Ancient island",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Ancient Inferno Island"].CFrame
 end)
-
+]]
 
 T6:Label("--== Training Areas ==--")
 
@@ -325,6 +333,35 @@ T6:Button("Tornado ( Bad )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174, 16872.0938, -9.9906435)
 end)
 
+local T7 = wndw:Tab("Shurikens")
+local shursys = {
+  aimbot = false,
+  inf = false
+}
+--getPlayers(funct
+
+T7:Toggle("Auto throw + aimbot",false,function(value)
+    shursys.aimbot = value
+    while wait() do
+      if shursys.aimbot == false then break end
+      getPlayers(function(v)
+          self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+      end)
+    end
+end)
+
+T7:Toggle("Auto fast shuriken",false,function(value)
+    tab3flags.other.fast = value
+end)
+
+T7:Toggle("infinite shurikens",false,function(value)
+    shursys.inf = value
+    while wait() do
+      if shursys.inf == false then break end
+      self.maxShurikenAmmo.Value = 9e9
+      self.shurikenAmmoCount.Value = 9e9
+    end
+end)
 --[[
 local tab3flags = {
   pets = {
@@ -813,8 +850,10 @@ for _,p in pairs(workspace.shurikensFolder:GetChildren()) do
 if p.Name == "Handle" then
 if p:FindFirstChild("BodyVelocity") then
 local bv = p:FindFirstChildOfClass("BodyVelocity")
+getPlayers(function(v)
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-bv.Velocity = Mouse.Hit.lookVector * velocity
+bv.Velocity = v.Character.HumanoidRootPart.CFrame.LookVector * velocity
+end)
 end
 end
 end
