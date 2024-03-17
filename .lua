@@ -10,7 +10,8 @@ local MainAuto = {
   ["EBoss"] = false,
   ["ABoss"] = false,
   ["Chi"] = false,
-  ["Hoop"] = false
+  ["Hoop"] = false,
+  ["rewards"] = false
 }
 
 local wndw = lib:Window("VIP Turtle Hub V4")
@@ -68,7 +69,7 @@ end)
 
 T1:Toggle("Auto chi",false,function(value)
     MainAuto["Chi"] = value
-end)
+end) --["rewards"]
 
 T1:Toggle("Auto hoops",false,function(value)
     MainAuto["Hoop"] = value
@@ -80,6 +81,16 @@ T1:Toggle("Auto hoops",false,function(value)
            end
         end
       end
+end)
+
+T1:Toggle("Auto collect all chest rewards",false,function(value)
+    MainAuto["rewards"] = value
+    while wait() do
+      if MainAuto["rewards"] == false then break end
+      for i,v in pairs(game:GetService("ReplicatedStorage").chestRewards:GetChilren()) do
+        game:GetService("ReplicatedStorage")["rEvents"]["checkChestRemote"]:InvokeServer(v.Name)
+      end
+    end
 end)
 
 local tab2flags = {
@@ -650,8 +661,8 @@ spawn(function()
 while wait() do
 if tab2flags.rank == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-for i = 1,#game:GetService("ReplicatedStorage").Ranks[tab2flags.zone]:GetChildren() do
-game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",island[i].Name)
+for i,v in pairs(game:GetService("ReplicatedStorage").Ranks[tab2flags.zone]:GetChildren()) do
+game:GetService("Players").LocalPlayer.ninjaEvent:FireServer("buyRank",v.Name)
 end
 end
 end
