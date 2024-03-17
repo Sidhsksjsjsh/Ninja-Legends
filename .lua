@@ -402,9 +402,9 @@ spawn(function()
 while wait() do
 if MainAuto["Sell"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+game.workspace.sellAreaCircles["sellAreaCircle16"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
 wait()
-game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Workspace.Part.CFrame
+game.workspace.sellAreaCircles["sellAreaCircle16"].circleInner.CFrame = game.Workspace.Part.CFrame
 end
 end
 end
@@ -415,9 +415,9 @@ while wait() do
 if MainAuto["Full Sell"] == true then 
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if self.PlayerGui.gameGui.maxNinjitsuMenu.Visible == true then
-game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+game.workspace.sellAreaCircles["sellAreaCircle16"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
 wait()
-game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Workspace.Part.CFrame
+game.workspace.sellAreaCircles["sellAreaCircle16"].circleInner.CFrame = game.Workspace.Part.CFrame
 end
 end
 end
