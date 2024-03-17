@@ -871,7 +871,7 @@ local bv = p:FindFirstChildOfClass("BodyVelocity")
 getPlayers(function(v)
 if v.Name ~= self.Name then
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
---bv.Velocity = v.Character.HumanoidRootPart.Position * velocity
+bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * velocity
 end
 end)
 end
