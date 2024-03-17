@@ -73,13 +73,11 @@ T1:Toggle("Auto hoops",false,function(value)
     MainAuto["Hoop"] = value
     while wait() do
       if MainAuto["Hoop"] == false then break end
-    for i = 1,#workspace.Hoops:getChildren() do
-      if MainAuto["Hoop"] == true then
-          for i = 1, 10 do
-             stuff[i].touchPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-          end
+        for _,v in pairs(workspace.Hoops:GetDescendants()) do
+           if v.ClassName == "MeshPart" then
+              v.touchPart.CFrame = self.Character.HumanoidRootPart.CFrame
+           end
         end
-      end
       end
 end)
 
@@ -345,7 +343,9 @@ T7:Toggle("Auto throw + aimbot",false,function(value)
     while wait() do
       if shursys.aimbot == false then break end
       getPlayers(function(v)
-          self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+          if v.Name ~= self.Name then
+            self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+          end
       end)
     end
 end)
@@ -851,8 +851,10 @@ if p.Name == "Handle" then
 if p:FindFirstChild("BodyVelocity") then
 local bv = p:FindFirstChildOfClass("BodyVelocity")
 getPlayers(function(v)
+if v.Name ~= self.Name then
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
 bv.Velocity = v.Character.HumanoidRootPart.CFrame.LookVector * velocity
+end
 end)
 end
 end
