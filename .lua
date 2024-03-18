@@ -310,8 +310,12 @@ T6:Button("Shop",function()
     self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").shopAreaCircle5.circleInner.CFrame
 end)
 
-T6:Button("King Of The hill",function()
+T6:Button("King Of The Hill",function()
     self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").kingOfTheHillPart.CFrame
+end)
+
+T6:Button("Pet Cloner",function()
+    self.Character.HumanoidRootPart.CFrame = CFrame.new(4569,130,1430)
 end)
 
 local T9 = wndw:Tab("Island")
