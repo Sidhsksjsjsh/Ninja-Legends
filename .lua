@@ -148,14 +148,16 @@ local tab3flags = {
     evolve = false,
     eternalise = false,
     immortalize = false,
-    legend = false
+    legend = false,
+    evolve2 = false
   },
   other = {
     fast = false,
     hitbox = false, -- no
     invis = false, -- no
     maxj = false, -- no
-    corbs = false
+    corbs = false,
+    fast2 = false,
   },
   sell = {
     basic = false,
@@ -225,6 +227,14 @@ T3:Toggle("Auto legend",false,function(value)
     tab3flags.pets.legend = value
 end)
 
+T3:Toggle("Auto evolve all pets",false,function(value)
+    tab3flags.pets.evolve2 = value
+    while wait() do
+      if tab3flags.pets.evolve2 == false then break end
+      game:GetService("ReplicatedStorage")["rEvents"]["autoEvolveRemote"]:InvokeServer("autoEvolvePets")
+    end
+end)
+
 --T3:Label("--== OTHER STUFF ==--")
 local T8 = wndw:Tab("Other stuff")
 
@@ -235,9 +245,9 @@ T8:Toggle("Big head all",false,function(value)
     while wait() do
       if tab3flags.other.hitbox == false then break end
         for _, v in pairs(game:GetService("Players"):GetPlayers()) do
-         if v.Name ~= game:GetService("Players").LocalPlayer.Name then
+         if v.Name ~= self.Name then
           v.Character.Head.CanCollide = false
-          v.Character.Head.Size = Vector3.new(5, 5, 5)
+          v.Character.Head.Size = Vector3.new(5,5,5)
           v.Character.Head.Transparency = 0
         end
        end
@@ -370,8 +380,9 @@ T7:Slider("Aimbot range ( the default is 150 )",0,1000,shursys.range,function(va
     shursys.range = tonumber(value)
 end)
 
-T7:Toggle("Auto throw + aimbot ( Range )",false,function(value)
+T7:Toggle("Auto throw + aimbot + fast ( Range )",false,function(value)
     shursys.aimbot = value
+    tab3flags.other.fast = value
     if value == true then
       lib:notify("Aimbot activated.",10)
     else
@@ -390,8 +401,8 @@ T7:Toggle("Auto throw + aimbot ( Range )",false,function(value)
     end
 end)
 
-T7:Toggle("Auto fast shuriken ( Range )",false,function(value)
-    tab3flags.other.fast = value
+T7:Toggle("Auto fast throw shuriken",false,function(value)
+    tab3flags.other.fast2 = value
 end)
 
 T7:Toggle("infinite shurikens",false,function(value)
@@ -883,9 +894,6 @@ spawn(function()
 while wait() do 
 if tab3flags.other.fast == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-local plr = game.Players.LocalPlayer
-local Mouse = plr:GetMouse()
-local velocity = 1000
 for _,p in pairs(workspace.shurikensFolder:GetChildren()) do
 if p.Name == "Handle" then
 if p:FindFirstChild("BodyVelocity") then
@@ -894,7 +902,7 @@ getPlayers(function(v)
 if v.Name ~= self.Name then
 if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * velocity
+bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * 9e9
 end
 end
 end)
@@ -904,7 +912,25 @@ end
 end
 end
 end
-end)
+end) --Mouse.Hit.lookVector
+
+spawn(function() 
+while wait() do 
+if tab3flags.other.fast2 == true then
+if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+for _,p in pairs(workspace.shurikensFolder:GetChildren()) do
+if p.Name == "Handle" then
+if p:FindFirstChild("BodyVelocity") then
+local bv = p:FindFirstChildOfClass("BodyVelocity")
+bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+bv.Velocity = self:GetMouse().Hit.lookVector * 1000
+end
+end
+end
+end
+end
+end
+end) --Mouse.Hit.lookVector
 
 lib:notify("Success... Enjoy!",10)
 local vu = game:GetService("VirtualUser")
