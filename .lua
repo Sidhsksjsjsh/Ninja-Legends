@@ -14,21 +14,44 @@ local MainAuto = {
   ["rewards"] = false
 } -- :)
 
-local wndw = lib:Window("VIP Turtle Hub V4")
+local wndw = lib:Window("VIP Turtle Hub V4 - FUCK, SHE GOT MERRIED WITH ANOTHER MAN 😭😭")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
 local island = {"Ground"}
 local handleegg = {}
+local petHandler = {}
 
-lib:notify("Loading VService...",10)
 lib:AddTable(workspace.islandUnlockParts,island)
 lib:AddTable(workspace.mapCrystalsFolder,handleegg)
+lib:AddTable(game:GetService("ReplicatedStorage")["cPetShopFolder"],petHandler)
 
 local function getPlayers(funct)
   for i,v in pairs(game.Players:GetPlayers()) do
     funct(v)
   end
+end
+
+local function childTemplate(path,funct)
+  for i,v in pairs(path:GetChildren()) do
+    funct(v)
+  end
+end
+
+local function sellPets(path)
+  childTemplate(path,function(v)
+    game:GetService("ReplicatedStorage")["rEvents"]["sellPetEvent"]:FireServer("sellPet",v)
+  end)
+end
+
+local function SpecificPetsSell(name)
+  childTemplate(self.petsFolder,function(attach)
+      childTemplate(attach,function(inject)
+          if inject.Name == name then
+            game:GetService("ReplicatedStorage")["rEvents"]["sellPetEvent"]:FireServer("sellPet",inject)
+          end
+      end)
+  end)
 end
 
 T1:Toggle("Auto good-karma",false,function(value)
@@ -139,7 +162,7 @@ _G.Rank = AutoBuy.flags.Rank
 _G.Skill = AutoBuy.flags.Skill]]
 
 -- Misc
-local T3 = wndw:Tab("Crystal & Pets")
+local T3 = wndw:Tab("Crystal")
 --T3:Label("--== PETS ==--")
 local tab3flags = {
   pets = {
@@ -165,7 +188,19 @@ local tab3flags = {
     rare = false,
     epic = false,
     unique = false,
-    omega = false
+    omega = false,
+    elite = false,
+    infinity = false,
+    awakened = false,
+    ["master legend"] = false,
+    beast = false,
+    skystorm = false,
+    ["soul master"] = false,
+    ["rising hero"] = false,
+    ["q-strike"] = false,
+    skyblade = false,
+    sp = false,
+    name = petHandler[1]
   }
 }
 -- {"Blue Crystal","Purple Crystal","Orange Crystal","Enchanted Crystal","Astral Crystal","Golden Crystal","Inferno Crystal","Galaxy Crystal","Frozen Crystal","Eternal Crystal","Storm Crystal","Thunder Crystal","Legends Crystal","Eternity Crystal"}
@@ -178,38 +213,8 @@ T3:Toggle("Open eggs",false,function(value)
     tab3flags.pets.openegg = value
 end)
 
---local Basic = Misc:Toggle("Sell Basic", {flag = "SBasic"}) --Misc.flags.SBasic
-T3:Toggle("Sell basics",false,function(value)
-    tab3flags.sell.basic = value
-end)
-
---local Advanced = Misc:Toggle("Sell Advanced", {flag = "SAdvanced"}) --Misc.flags.SAdvanced
-T3:Toggle("Sell advanced",false,function(value)
-    tab3flags.sell.advanced = value
-end)
-
---local Rare = Misc:Toggle("Sell Rare", {flag = "SRare"}) --Misc.flags.SRare
-T3:Toggle("Sell rare",false,function(value)
-    tab3flags.sell.rare = value
-end)
-
---local Epic = Misc:Toggle("Sell Epic", {flag = "SEpic"}) --Misc.flags.SEpic
-T3:Toggle("Sell epic",false,function(value)
-    tab3flags.sell.epic = value
-end)
-
---local Unique = Misc:Toggle("Sell Unique", {flag = "SUnique"})
-T3:Toggle("Sell unique",false,function(value)
-    tab3flags.sell.unique = value
-end)
-
---local IPB = Misc:Toggle("Sell Omega", {flag = "SIPB"})
-T3:Toggle("Sell advanced",false,function(value)
-    tab3flags.sell.omega = value
-end)
-
 --local Evolve = Misc:Toggle("Auto-Evolve", {flag = "Evolve"}) -- Misc.flags.TEgg
-T3:Toggle("Auto evolve",false,function(value)
+T3:Toggle("Auto evolve every single pets",false,function(value)
     tab3flags.pets.evolve = value
 end)
 
@@ -227,7 +232,7 @@ T3:Toggle("Auto legend",false,function(value)
     tab3flags.pets.legend = value
 end)
 
-T3:Toggle("Auto evolve all pets",false,function(value)
+T3:Toggle("Auto instant evolve",false,function(value)
     tab3flags.pets.evolve2 = value
     while wait() do
       if tab3flags.pets.evolve2 == false then break end
@@ -413,6 +418,125 @@ T7:Toggle("infinite shurikens",false,function(value)
       self.shurikenAmmoCount.Value = 9e9
     end
 end)
+
+local T11 = wndw:Tab("Sell pets")
+
+T11:Dropdown("Choose a pet",petHandler,function(value)
+    tab3flags.sell.name = value
+end)
+
+T11:Toggle("Sell selected pet",false,function(value)
+    tab3flags.sell.sp = value
+    while wait() do
+      if tab3flags.sell.sp == false then break end
+      SpecificPetsSell(tab3flags.sell.name)
+    end
+end)
+
+T11:Toggle("Sell basics",false,function(value)
+    tab3flags.sell.basic = value
+end)
+
+T11:Toggle("Sell advanced",false,function(value)
+    tab3flags.sell.advanced = value
+end)
+
+T11:Toggle("Sell rare",false,function(value)
+    tab3flags.sell.rare = value
+end)
+
+T11:Toggle("Sell epic",false,function(value)
+    tab3flags.sell.epic = value
+end)
+
+T11:Toggle("Sell unique",false,function(value)
+    tab3flags.sell.unique = value
+end)
+
+T11:Toggle("Sell omega",false,function(value)
+    tab3flags.sell.omega = value
+end)
+--sellPets(path)
+T11:Toggle("Sell elite",false,function(value)
+    tab3flags.sell.elite = value
+    while wait() do
+      if tab3flags.sell.elite == false then break end
+      sellPets(self.petsFolder.Elite)
+    end
+end)
+
+T11:Toggle("Sell infinity",false,function(value)
+    tab3flags.sell.infinity = value
+    while wait() do
+      if tab3flags.sell.infinity == false then break end
+      sellPets(self.petsFolder.Infinity)
+    end
+end)
+
+T11:Toggle("Sell awakened",false,function(value)
+    tab3flags.sell.awakened = value
+    while wait() do
+      if tab3flags.sell.awakened == false then break end
+      sellPets(self.petsFolder.Awakened)
+    end
+end)
+
+T11:Toggle("Sell master legend",false,function(value)
+    tab3flags.sell["master legend"] = value
+    while wait() do
+      if tab3flags.sell["master legend"] == false then break end
+      sellPets(self.petsFolder["Master Legend"])
+    end
+end)
+
+T11:Toggle("Sell beast",false,function(value)
+    tab3flags.sell.beast = value
+    while wait() do
+      if tab3flags.sell.beast == false then break end
+      sellPets(self.petsFolder.Beast)
+    end
+end)
+
+T11:Toggle("Sell skystorm",false,function(value)
+    tab3flags.sell.skystorm = value
+    while wait() do
+      if tab3flags.sell.skystorm == false then break end
+      sellPets(self.petsFolder.Skystorm)
+    end
+end)
+
+T11:Toggle("Sell soul master",false,function(value)
+    tab3flags.sell["soul master"] = value
+    while wait() do
+      if tab3flags.sell["soul master"] == false then break end
+      sellPets(self.petsFolder["Soul Master"])
+    end
+end)
+
+T11:Toggle("Sell rising hero",false,function(value)
+    tab3flags.sell["rising hero"] = value
+    while wait() do
+      if tab3flags.sell["rising hero"] == false then break end
+      sellPets(self.petsFolder["Rising Hero"])
+    end
+end)
+
+T11:Toggle("Sell Q-STRIKE",false,function(value)
+    tab3flags.sell["q-strike"] = value
+    while wait() do
+      if tab3flags.sell["q-strike"] == false then break end
+      sellPets(self.petsFolder["Q-STRIKE"])
+    end
+end)
+
+T11:Toggle("Sell skyblade",false,function(value)
+    tab3flags.sell.skyblade = value
+    while wait() do
+      if tab3flags.sell.skyblade == false then break end
+      sellPets(self.petsFolder.Skyblade)
+    end
+end)
+
 --[[
 local tab3flags = {
   pets = {
