@@ -12,7 +12,7 @@ local MainAuto = {
   ["Chi"] = false,
   ["Hoop"] = false,
   ["rewards"] = false
-}
+} -- :)
 
 local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
@@ -139,8 +139,8 @@ _G.Rank = AutoBuy.flags.Rank
 _G.Skill = AutoBuy.flags.Skill]]
 
 -- Misc
-local T3 = wndw:Tab("Misc")
-T3:Label("--== PETS ==--")
+local T3 = wndw:Tab("Crystal & Pets")
+--T3:Label("--== PETS ==--")
 local tab3flags = {
   pets = {
     egg = "Blue Crystal",
@@ -225,11 +225,12 @@ T3:Toggle("Auto legend",false,function(value)
     tab3flags.pets.legend = value
 end)
 
-T3:Label("--== OTHER STUFF ==--")
+--T3:Label("--== OTHER STUFF ==--")
+local T8 = wndw:Tab("Other stuff")
 
 --local FastThing = Misc:Toggle("Fast Shuriken", {flag = "Fast"}) -- AutoBuy.flags.Belt
 
-T3:Toggle("Big head all",false,function(value)
+T8:Toggle("Big head all",false,function(value)
     tab3flags.other.hitbox = value
     while wait() do
       if tab3flags.other.hitbox == false then break end
@@ -243,11 +244,11 @@ T3:Toggle("Big head all",false,function(value)
       end
 end)
 
-T3:Button("Hide name",function()
+T8:Button("Hide name",function()
     workspace[self.Name].Head.nameGui:Destroy()
 end)
 
-T3:Toggle("Invisibility",false,function(value)
+T8:Toggle("Invisibility",false,function(value)
     tab3flags.other.invis = value
     while wait() do
     if tab3flags.other.invis == false then break end
@@ -255,7 +256,7 @@ T3:Toggle("Invisibility",false,function(value)
     end
 end)
 
-T3:Toggle("Max jump",false,function(value)
+T8:Toggle("Max jump",false,function(value)
     tab3flags.other.maxj = value
     while wait() do
       if tab3flags.other.maxj == false then break end
@@ -263,7 +264,7 @@ T3:Toggle("Max jump",false,function(value)
     end
 end)
 
-T3:Toggle("Auto collect all orbs",false,function(value)
+T8:Toggle("Auto collect all orbs",false,function(value)
     tab3flags.other.corbs = value
     while wait() do
       if tab3flags.other.corbs == false then break end
@@ -281,16 +282,14 @@ T4:Button("Unlock islands",function()
     end
 end)
 
-local T5 = wndw:Tab("Popups")
-
-T5:Toggle("Toggle popups",false,function(value)
+T8:Toggle("Toggle popups",false,function(value)
     self.PlayerGui.statEffectsGui.Enabled = value
     self.PlayerGui.hoopGui.Enabled = value
 end)
 
 -- Teleports
 local T6 = wndw:Tab("Teleports")
-T6:Label("--== Utilitys ==--")
+--T6:Label("--== Utilitys ==--")
   
 T6:Button("Shop",function()
     self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").shopAreaCircle5.circleInner.CFrame
@@ -300,10 +299,10 @@ T6:Button("King Of The hill",function()
     self.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").kingOfTheHillPart.CFrame
 end)
 
-T6:Label("--== Worlds ==--")
+local T9 = wndw:Tab("Island")
 
 for inject = 1,#island do
-T6:Button(island[inject],function()
+T9:Button(island[inject],function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts[island[inject]].CFrame
 end)
 end
@@ -341,45 +340,57 @@ T6:Button("Ancient island",function()
 end)
 ]]
 
-T6:Label("--== Training Areas ==--")
+local T10 = wndw:Tab("Training areas")
 
-T6:Button("Mystical Water ( Good )",function()
+T10:Button("Mystical Water ( Good )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881, 8824.53809, 114.271019)
 end)
 
-T6:Button("Sword of Legend ( Good )",function()
+T10:Button("Sword of Legend ( Good )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967, 38.704483, -141.375641)
 end)
 
-T6:Button("Lava Pit ( Bad )",function()
+T10:Button("Lava Pit ( Bad )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485, 12952.5381, 271.14624)
 end)
 
-T6:Button("Tornado ( Bad )",function()
+T10:Button("Tornado ( Bad )",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174, 16872.0938, -9.9906435)
 end)
 
 local T7 = wndw:Tab("Shurikens")
 local shursys = {
   aimbot = false,
-  inf = false
+  inf = false,
+  range = 150
 }
 --getPlayers(funct
 
-T7:Toggle("Auto throw + aimbot",false,function(value)
+T7:Slider("Aimbot range ( the default is 150 )",0,1000,shursys.range,function(value)
+    shursys.range = tonumber(value)
+end)
+
+T7:Toggle("Auto throw + aimbot ( Range )",false,function(value)
     shursys.aimbot = value
-    lib:notify("Aimbot activated.",10)
+    if value == true then
+      lib:notify("Aimbot activated.",10)
+    else
+      lib:notify("Aimbot deactivated.",10)
+    end
+    
     while wait() do
       if shursys.aimbot == false then break end
       getPlayers(function(v)
           if v.Name ~= self.Name then
-            self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+            if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
+              self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+            end
           end
       end)
     end
 end)
 
-T7:Toggle("Auto fast shuriken",false,function(value)
+T7:Toggle("Auto fast shuriken ( Range )",false,function(value)
     tab3flags.other.fast = value
 end)
 
@@ -881,8 +892,10 @@ if p:FindFirstChild("BodyVelocity") then
 local bv = p:FindFirstChildOfClass("BodyVelocity")
 getPlayers(function(v)
 if v.Name ~= self.Name then
+if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
 bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
 bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * velocity
+end
 end
 end)
 end
