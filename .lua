@@ -87,7 +87,7 @@ T1:Toggle("Auto collect all chest rewards",false,function(value)
     MainAuto["rewards"] = value
     while wait() do
       if MainAuto["rewards"] == false then break end
-      for i,v in pairs(game:GetService("ReplicatedStorage").chestRewards:GetChilren()) do
+      for i,v in pairs(game:GetService("ReplicatedStorage").chestRewards:GetChildren()) do
         game:GetService("ReplicatedStorage")["rEvents"]["checkChestRemote"]:InvokeServer(v.Name)
       end
     end
