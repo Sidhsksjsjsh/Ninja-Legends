@@ -11,7 +11,8 @@ local MainAuto = {
   ["ABoss"] = false,
   ["Chi"] = false,
   ["Hoop"] = false,
-  ["rewards"] = false
+  ["rewards"] = false,
+  ["Swing2"] = false
 } -- :)
 
 local wndw = lib:Window("VIP Turtle Hub V4")
@@ -23,7 +24,7 @@ local handleegg = {}
 local petHandler = {}
 
 lib:AddTable(workspace.islandUnlockParts,island)
-lib:AddTable(workspace.mapCrystalsFolder,handleegg)
+lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
 lib:AddTable(game:GetService("ReplicatedStorage")["cPetShopFolder"],petHandler)
 
 local function getPlayers(funct)
@@ -66,6 +67,7 @@ local function chams(str)
   esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 end
 
+--[[
 T1:Toggle("Auto good-karma",false,function(value)
     MainAuto["Good Karma"] = value
 end)
@@ -73,9 +75,18 @@ end)
 T1:Toggle("Auto bad-karma",false,function(value)
     MainAuto["Bad Karma"] = value
 end)
+]]
 
 T1:Toggle("Auto swing",false,function(value)
     MainAuto["Swing"] = value
+end)
+
+T1:Toggle("Auto swing ( without auto equip )",false,function(value)
+    MainAuto["Swing2"] = value
+    while wait() do
+      if MainAuto["Swing2"] == false then break end
+      self["ninjaEvent"]:FireServer("swingKatana")
+    end
 end)
 
 T1:Toggle("Auto sell",false,function(value)
@@ -572,20 +583,33 @@ end)
 local T12 = wndw:Tab("Pet Cloner")
 local clone = false
 local clonename = petHandler[1]
-
+local renamepet = false
+local renamestr = "ALYA"
 T12:Dropdown("Choose a pet",petHandler,function(value)
     clonename = value
+end)
+
+T12:Textbox("Input name",false,function(value)
+    renamestr = value
 end)
 
 T12:Toggle("Auto clone [ Chi ]",false,function(value)
     clone = value
     while wait() do
       if clone == false then break end
-      if self:FindFirstChild(clonename) then
+      --if self:FindFirstChild(clonename) then
         game:GetService("ReplicatedStorage")["rEvents"]["petCloneEvent"]:FireServer("clonePet",self[clonename])
-      else
-        lib:notify("Failed to find a pet with the name '" .. lib:ColorFonts(clonename,"Red") .. "'",10)
-      end
+      --else
+      --  lib:notify("Failed to find a pet with the name '" .. lib:ColorFonts(clonename,"Red") .. "'",10)
+      --end
+    end
+end)
+
+T12:Toggle("Auto rename",false,function(value)
+    renamepet = value
+    while wait() do
+      if renamepet == false then break end
+      game:GetService("ReplicatedStorage")["rEvents"]["renameRemote"]:InvokeServer(renamestr,self[clonename])
     end
 end)
 --[[
@@ -644,7 +668,7 @@ while wait() do
 if MainAuto["Swing"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then 
-game.Players.LocalPlayer.ninjaEvent:FireServer("swingKatana")
+self.ninjaEvent:FireServer("swingKatana")
 else
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("attackShurikenScript") then 
