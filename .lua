@@ -70,7 +70,7 @@ end
 local function fastswing()
 childTemplate(self.Backpack,function(v)
 	if v:FindFirstChild("attackTime") then
-	  nig.attackTime.Value = 0
+	  v.attackTime.Value = 0
 	end
 end)
 end
