@@ -67,6 +67,14 @@ local function chams(str)
   esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 end
 
+local function fastswing()
+childTemplate(self.Backpack,function(v)
+	if v:FindFirstChild("attackTime") then
+	  nig.attackTime.Value = 0
+	end
+end)
+end
+
 --[[
 T1:Toggle("Auto good-karma",false,function(value)
     MainAuto["Good Karma"] = value
@@ -79,10 +87,12 @@ end)
 
 T1:Toggle("Auto swing",false,function(value)
     MainAuto["Swing"] = value
+    fastswing()
 end)
 
 T1:Toggle("Auto swing ( without auto equip )",false,function(value)
     MainAuto["Swing2"] = value
+    fastswing()
     while wait() do
       if MainAuto["Swing2"] == false then break end
       self["ninjaEvent"]:FireServer("swingKatana")
@@ -103,14 +113,17 @@ end)
 
 T1:Toggle("Auto robot boss",false,function(value)
     MainAuto["Boss"] = value
+    fastswing()
 end)
 
 T1:Toggle("Auto eternal boss",false,function(value)
     MainAuto["EBoss"] = value
+    fastswing()
 end)
 
 T1:Toggle("Auto ancient boss",false,function(value)
     MainAuto["ABoss"] = value
+    fastswing()
 end)
 
 T1:Toggle("Auto chi",false,function(value)
@@ -419,7 +432,7 @@ T7:Slider("Aimbot range ( the default is 150 )",0,1000,shursys.range,function(va
 end)
 
 if self.Name == "Rivanda_Cheater" then
-T7:Toggle("Use range",false,function(value)
+T7:Toggle("Use range",shursys.userange,function(value)
     shursys.userange = value
 end)
 end
