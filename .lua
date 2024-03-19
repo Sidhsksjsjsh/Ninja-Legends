@@ -14,7 +14,7 @@ local MainAuto = {
   ["rewards"] = false
 } -- :)
 
-local wndw = lib:Window("VIP Turtle Hub V4 - FUCK, SHE GOT MERRIED WITH ANOTHER MAN 😭😭")
+local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
@@ -52,6 +52,18 @@ local function SpecificPetsSell(name)
           end
       end)
   end)
+end
+
+local function chams(str)
+  local esp = Instance.new("Highlight")
+  esp.Name = "X-RAY"
+  esp.FillColor = Color3.new(0,1,0)
+  esp.OutlineColor = Color3.new(1,1,1)
+  esp.FillTransparency = 0
+  esp.OutlineTransparency = 1
+  esp.Adornee = str
+  esp.Parent = str
+  esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 end
 
 T1:Toggle("Auto good-karma",false,function(value)
@@ -181,6 +193,7 @@ local tab3flags = {
     maxj = false, -- no
     corbs = false,
     fast2 = false,
+    esp = false
   },
   sell = {
     basic = false,
@@ -289,6 +302,10 @@ T8:Toggle("Auto collect all orbs",false,function(value)
     end
 end)
 
+T8:Toggle("Orbs ESP",false,function(value)
+    tab3flags.other.esp = value
+end)
+
 local T4 = wndw:Tab("Island")
 T4:Button("Unlock islands",function()
     for array = 1,#island do
@@ -381,13 +398,20 @@ local T7 = wndw:Tab("Shurikens")
 local shursys = {
   aimbot = false,
   inf = false,
-  range = 150
+  range = 150,
+  userange = true
 }
 --getPlayers(funct
 
 T7:Slider("Aimbot range ( the default is 150 )",0,1000,shursys.range,function(value)
     shursys.range = tonumber(value)
 end)
+
+if self.Name == "Rivanda_Cheater" then
+T7:Toggle("Use range",false,function(value)
+    shursys.userange = value
+end)
+end
 
 T7:Toggle("Auto throw + aimbot + fast ( Range )",false,function(value)
     shursys.aimbot = value
@@ -402,7 +426,11 @@ T7:Toggle("Auto throw + aimbot + fast ( Range )",false,function(value)
       if shursys.aimbot == false then break end
       getPlayers(function(v)
           if v.Name ~= self.Name then
-            if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
+            if shursys.userange == true then
+              if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
+                self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+              end
+            else
               self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
             end
           end
@@ -541,6 +569,25 @@ T11:Toggle("Sell skyblade",false,function(value)
     end
 end)
 
+local T12 = wndw:Tab("Pet Cloner")
+local clone = false
+local clonename = petHandler[1]
+
+T12:Dropdown("Choose a pet",petHandler,function(value)
+    clonename = value
+end)
+
+T12:Toggle("Auto clone [ Chi ]",false,function(value)
+    clone = value
+    while wait() do
+      if clone == false then break end
+      if self:FindFirstChild(clonename) then
+        game:GetService("ReplicatedStorage")["rEvents"]["petCloneEvent"]:FireServer("clonePet",self[clonename])
+      else
+        lib:notify("Failed to find a pet with the name '" .. lib:ColorFonts(clonename,"Red") .. "'",10)
+      end
+    end
+end)
 --[[
 local tab3flags = {
   pets = {
@@ -1028,9 +1075,14 @@ if p:FindFirstChild("BodyVelocity") then
 local bv = p:FindFirstChildOfClass("BodyVelocity")
 getPlayers(function(v)
 if v.Name ~= self.Name then
-if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
-bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * 9e9
+if shursys.userange == true then
+      if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
+          bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+          bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * 9e9
+      end
+else
+      bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+      bv.Velocity = (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).unit * 9e9
 end
 end
 end)
@@ -1059,6 +1111,17 @@ end
 end
 end
 end) --Mouse.Hit.lookVector
+
+workspace["soulPartsFolder"].ChildAdded:Connect(function(verse)
+    if tab3flags.other.esp == true then
+      chams(verse)
+      if #workspace["soulPartsFolder"]:GetChildren() < 2 then
+        lib:notify("1 orb detected",5)
+      else
+        lib:notify(#workspace["soulPartsFolder"]:GetChildren() .. " orbs detected",5)
+      end
+    end
+end)
 
 lib:notify("Success... Enjoy!",10)
 local vu = game:GetService("VirtualUser")
