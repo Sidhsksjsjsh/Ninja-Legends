@@ -90,7 +90,7 @@ T1:Toggle("Auto swing",false,function(value)
     fastswing()
 end)
 
-T1:Toggle("Auto swing ( without auto equip )",false,function(value)
+--[[T1:Toggle("Auto swing ( without auto equip )",false,function(value)
     MainAuto["Swing2"] = value
     fastswing()
     while wait() do
@@ -98,6 +98,7 @@ T1:Toggle("Auto swing ( without auto equip )",false,function(value)
       self["ninjaEvent"]:FireServer("swingKatana")
     end
 end)
+]]
 
 T1:Toggle("Auto sell",false,function(value)
     MainAuto["Sell"] = value
@@ -217,7 +218,7 @@ local tab3flags = {
     maxj = false, -- no
     corbs = false,
     fast2 = false,
-    esp = false
+    esp = true
   },
   sell = {
     basic = false,
@@ -312,21 +313,22 @@ T8:Toggle("Max jump",false,function(value)
     tab3flags.other.maxj = value
     while wait() do
       if tab3flags.other.maxj == false then break end
-       self.multiJumpCount.Value = 9e9
+       self.multiJumpCount.Value = "999999999999"
     end
 end)
 
-T8:Toggle("Auto collect all orbs",false,function(value)
+T8:Toggle("Auto collect all orbs ( with teleport )",false,function(value)
     tab3flags.other.corbs = value
     while wait() do
       if tab3flags.other.corbs == false then break end
        for i,v in pairs(workspace["soulPartsFolder"]:GetChildren()) do
+	self.Character.HumanoidRootPart.CFrame = v.CFrame * Vector3.new(0,5,0)
         self["ninjaEvent"]:FireServer("collectSoul",v)
       end
     end
 end)
 
-T8:Toggle("Orbs ESP",false,function(value)
+T8:Toggle("Orbs ESP",true,function(value)
     tab3flags.other.esp = value
 end)
 
@@ -338,7 +340,9 @@ T4:Button("Unlock islands",function()
     end
 end)
 
-T8:Toggle("Toggle popups",false,function(value)
+self.PlayerGui.statEffectsGui.Enabled = true
+self.PlayerGui.hoopGui.Enabled = true
+T8:Toggle("Toggle popups",true,function(value)
     self.PlayerGui.statEffectsGui.Enabled = value
     self.PlayerGui.hoopGui.Enabled = value
 end)
@@ -423,7 +427,8 @@ local shursys = {
   aimbot = false,
   inf = false,
   range = 150,
-  userange = true
+  userange = true,
+  boss = false
 }
 --getPlayers(funct
 
@@ -437,13 +442,13 @@ T7:Toggle("Use range",shursys.userange,function(value)
 end)
 end
 
-T7:Toggle("Auto throw + aimbot + fast ( Range )",false,function(value)
+T7:Toggle("Auto throw + tracking + fast ( Range )",false,function(value)
     shursys.aimbot = value
     tab3flags.other.fast = value
     if value == true then
-      lib:notify("Aimbot activated.",10)
+      lib:notify("Tracking activated.",10)
     else
-      lib:notify("Aimbot deactivated.",10)
+      lib:notify("Tracking deactivated.",10)
     end
     
     while wait() do
@@ -461,6 +466,25 @@ T7:Toggle("Auto throw + aimbot + fast ( Range )",false,function(value)
       end)
     end
 end)
+--workspace.bossFolder
+T7:Toggle("Auto throw to nearest boss",false,function(value)
+	shursys.boss = value
+	tab3flags.other.fast = value
+	if value == true then
+		lib:notify("Boss Tracking activated.",10)
+	else
+		lib:notify("Boss Tracking deactivated.",10)
+	end
+		
+	while wait() do
+	if shursys.boss == false then break end
+		childTemplate(workspace.bossFolder,function(boss)
+			if (self.Character.HumanoidRootPart.Position - boss.HumanoidRootPart.Position).Magnitude < 150 then
+				self["ninjaEvent"]:FireServer("attackShuriken",boss.HumanoidRootPart.Position)
+			end
+		end)
+	end
+end)
 
 T7:Toggle("Auto fast throw shuriken",false,function(value)
     tab3flags.other.fast2 = value
@@ -470,8 +494,8 @@ T7:Toggle("infinite shurikens",false,function(value)
     shursys.inf = value
     while wait() do
       if shursys.inf == false then break end
-      self.maxShurikenAmmo.Value = 9e9
-      self.shurikenAmmoCount.Value = 9e9
+      self.maxShurikenAmmo.Value = "5000"
+      self.shurikenAmmoCount.Value = "5000"
     end
 end)
 
@@ -594,22 +618,25 @@ T11:Toggle("Sell skyblade",false,function(value)
 end)
 
 local T12 = wndw:Tab("Pet Cloner")
-local clone = false
-local clonename = petHandler[1]
-local renamepet = false
-local renamestr = "ALYA"
+local clone = {
+	cloner = false,
+	clonename = petHandler[1],
+	renamepet = false,
+	renamestr = "ALYA"
+}
+
 T12:Dropdown("Choose a pet",petHandler,function(value)
-    clonename = value
+    clone.clonename = value
 end)
 
 T12:Textbox("Input name",false,function(value)
-    renamestr = value
+    clone.renamestr = value
 end)
 
 T12:Toggle("Auto clone [ Chi ]",false,function(value)
-    clone = value
+    clone.cloner = value
     while wait() do
-      if clone == false then break end
+      if clone.cloner == false then break end
       --if self:FindFirstChild(clonename) then
         game:GetService("ReplicatedStorage")["rEvents"]["petCloneEvent"]:FireServer("clonePet",self[clonename])
       --else
@@ -619,9 +646,9 @@ T12:Toggle("Auto clone [ Chi ]",false,function(value)
 end)
 
 T12:Toggle("Auto rename",false,function(value)
-    renamepet = value
+    clone.renamepet = value
     while wait() do
-      if renamepet == false then break end
+      if clone.renamepet == false then break end
       game:GetService("ReplicatedStorage")["rEvents"]["renameRemote"]:InvokeServer(renamestr,self[clonename])
     end
 end)
