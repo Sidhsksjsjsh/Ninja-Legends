@@ -322,7 +322,7 @@ T8:Toggle("Auto collect all orbs ( with teleport )",false,function(value)
     while wait() do
       if tab3flags.other.corbs == false then break end
        for i,v in pairs(workspace["soulPartsFolder"]:GetChildren()) do
-	self.Character.HumanoidRootPart.CFrame = v.CFrame * Vector3.new(0,5,0)
+	self.Character.HumanoidRootPart.CFrame = v.CFrame + Vector3.new(0,5,0)
         self["ninjaEvent"]:FireServer("collectSoul",v)
       end
     end
@@ -1175,7 +1175,7 @@ end
 end
 end
 end) --Mouse.Hit.lookVector
-
+--v:FindFirstChild("isGoodKarma")
 workspace["soulPartsFolder"].ChildAdded:Connect(function(verse)
     if tab3flags.other.esp == true then
       chams(verse)
