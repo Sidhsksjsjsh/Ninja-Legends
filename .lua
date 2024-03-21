@@ -15,7 +15,7 @@ local MainAuto = {
   ["Swing2"] = false
 } -- :)
 
-local wndw = lib:Window("VIP Turtle Hub V4")
+local wndw = lib:Window("VIP Turtle Hub V4 - Service activation failed #404")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
@@ -414,7 +414,6 @@ T6:Button("Ancient island",function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").islandUnlockParts["Ancient Inferno Island"].CFrame
 end)
 ]]
-
 local T10 = wndw:Tab("Training areas")
 
 local tareas = {
@@ -460,7 +459,7 @@ T10:Dropdown("Choose area",training,function(value)
 end)
 
 T10:Button("Teleport",function()
-    if self.Karma > tareas.karma then
+    if self.Karma.Value > tareas.karma then
 	if tareas.name == "Training Area: Mystical Water" then
 		self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
 	elseif tareas.name == "Training Area: Sword of Legend" or tareas.name == "Training Area: Sword Of Legend" then
@@ -474,7 +473,7 @@ T10:Button("Teleport",function()
 	elseif tareas.name == "Training Area: Zen Master's Blade" then
 		self.Character.HumanoidRootPart.CFrame = CFrame.new(5046,40,1588)
 	else
-		lib:notify(lib:ColorFonts("ERROR! UNKNOWN AREA POSITION","Red"),10)
+		lib:notify(lib:ColorFonts("ERROR! UNKNOWN AREA POSITION ( error : load_local_area_position )","Red"),10)
 	end
     else
 	lib:notify("Your karma is below " .. lib:ColorFonts(tareas.karma,"Red"),10)
@@ -1316,9 +1315,9 @@ end)
 
 lib:notify("Success... Enjoy!",10)
 local vu = game:GetService("VirtualUser")
-self.Idled:connect(
-function()
-vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+self.Idled:connect(function()
+lib:notify("Player is afk... manipulating server detection.",10)
+vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 wait(1)
-vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
