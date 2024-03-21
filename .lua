@@ -29,13 +29,13 @@ lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
 lib:AddTable(game:GetService("ReplicatedStorage")["cPetShopFolder"],petHandler)
 
 for i,set in pairs(game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"]:GetChildren()) do
-	if v:find("Training Area") then
+	if set:find("Training Area") then
 		table.insert(training,set.Name)
 	end
 end
 
 for i,set in pairs(game:GetService("ReplicatedStorage")["Light Skills"]["Ground"]:GetChildren()) do
-	if v:find("Training Area") then
+	if set:find("Training Area") then
 		table.insert(training,set.Name)
 	end
 end
