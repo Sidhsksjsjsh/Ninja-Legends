@@ -22,6 +22,7 @@ local workspace = game:GetService("Workspace")
 local island = {"Ground"}
 local handleegg = {}
 local petHandler = {}
+local training = {}
 
 lib:AddTable(workspace.islandUnlockParts,island)
 lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
@@ -249,7 +250,8 @@ local tab3flags = {
     name = petHandler[1]
   }
 }
--- {"Blue Crystal","Purple Crystal","Orange Crystal","Enchanted Crystal","Astral Crystal","Golden Crystal","Inferno Crystal","Galaxy Crystal","Frozen Crystal","Eternal Crystal","Storm Crystal","Thunder Crystal","Legends Crystal","Eternity Crystal"}
+
+local price = T3:Label(lib:ColorFonts("Error ReturnValue","Red"))
 T3:Dropdown("Eggs",handleegg,function(value)
     tab3flags.pets.egg = value
 end)
@@ -354,6 +356,10 @@ end)
 
 T6:Button("Pet Cloner",function()
     self.Character.HumanoidRootPart.CFrame = CFrame.new(4569,130,1430)
+end)
+
+T6:Button("Altar of Elements",function()
+    self.Character.HumanoidRootPart.CFrame = CFrame.new(771,132,-6037)
 end)
 
 local T9 = wndw:Tab("Island")
@@ -688,6 +694,9 @@ T13:Toggle("Auto collect all orbs",false,function(value)
       end
     end
 end)
+
+local T14 = wndw:Tab("User Information")
+local info = T14:Label(lib:ColorFonts("Failed to load information","Red"))
 --[[
 local tab3flags = {
   pets = {
@@ -1231,11 +1240,18 @@ workspace["soulPartsFolder"].ChildAdded:Connect(function(verse)
     if tab3flags.other.esp == true then
       chams(verse)
       if #workspace["soulPartsFolder"]:GetChildren() < 2 then
-        lib:notify("1 orb detected" .. orbDetection(verse),5)
+        lib:notify("1 orb detected",5)
       else
-        lib:notify(#workspace["soulPartsFolder"]:GetChildren() .. " orbs detected" .. orbDetection(verse),5)
+        lib:notify(#workspace["soulPartsFolder"]:GetChildren() .. " orbs detected",5)
       end
     end
+end)
+
+task.spawn(function()
+	lib:runtime(function()
+		price:EditLabel(string.format("Egg name : %s\nPrice : %s\nCurrency type : ",tab3flags.pets.egg,game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].price.Value,game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].priceType.Value))
+		info:EditLabel(string.format("Current rank : " .. lib:ColorFonts("%s","Red") .. "\nCurrent belt : " .. lib:ColorFonts("%s","Red") .. "\nCurrent sword : " .. lib:ColorFonts("%s","Red"),self.equippedRank.Value,self.equippedBelt.Value,self.equippedSword.Value))
+	end)
 end)
 
 lib:notify("Success... Enjoy!",10)
