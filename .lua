@@ -28,6 +28,18 @@ lib:AddTable(workspace.islandUnlockParts,island)
 lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
 lib:AddTable(game:GetService("ReplicatedStorage")["cPetShopFolder"],petHandler)
 
+for i,set in pairs(game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"]:GetChildren()) do
+	if v:find("Training Area") then
+		table.insert(training,set.Name)
+	end
+end
+
+for i,set in pairs(game:GetService("ReplicatedStorage")["Light Skills"]["Ground"]:GetChildren()) do
+	if v:find("Training Area") then
+		table.insert(training,set.Name)
+	end
+end
+
 local function getPlayers(funct)
   for i,v in pairs(game.Players:GetPlayers()) do
     funct(v)
@@ -405,20 +417,84 @@ end)
 
 local T10 = wndw:Tab("Training areas")
 
-T10:Button("Mystical Water ( Good )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
+--[[T10:Button("Mystical Water ( Good )",function()
+    self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
 end)
 
 T10:Button("Sword of Legend ( Good )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
+    self.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
 end)
 
 T10:Button("Lava Pit ( Bad )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
+    self.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
 end)
 
 T10:Button("Tornado ( Bad )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
+    self.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
+end)]]
+
+local tareas = {
+	karma = 0,
+	type = "null",
+	name = "null"
+}
+
+local function addNumber(type)
+	if type == "Dark" then
+		tareas.karma = game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"][tareas.name]["karmaPrice"].Value
+	elseif type == "Light" then
+		tareas.karma = game:GetService("ReplicatedStorage")["Light Skills"]["Ground"][tareas.name]["karmaPrice"].Value
+	else
+		lib:notify(lib:ColorFonts("Invalid skill type","Red"),10)
+	end
+end
+
+local function getAreastype(name)
+	local success,haha = pcall(function()
+		if game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"][name]["karmaPrice"].Value:sub(1,1) == "-" then
+			tareas.type = "Bad karma"
+			addNumber("Dark")
+		else
+			tareas.type = "Good karma"
+			addNumber("Light")
+		end
+	end)
+	if not success then
+		if game:GetService("ReplicatedStorage")["Light Skills"]["Ground"][name]["karmaPrice"].Value:sub(1,1) ~= "-" then
+			tareas.type = "Good karma"
+			addNumber("Light")
+		else
+			tareas.type = "Bad karma"
+			addNumber("Dark")
+		end
+	end
+end
+
+T10:Dropdown("Eggs",training,function(value)
+    tareas.name = value
+    getAreastype(value)
+end)
+
+T10:Button("Teleport",function()
+    if self.Karma > tareas.karma then
+	if tareas.name == "Training Area: Mystical Water" then
+		self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
+	elseif tareas.name == "Training Area: Sword of Legend" or tareas.name == "Training Area: Sword Of Legend" then
+		self.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
+	elseif tareas.name == "Training Area: Lava Pit" then
+		self.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
+	elseif tareas.name == "Training Area: Tornado" then
+		self.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
+	elseif tareas.name == "Training Area: Fallen Infinity Blade" then
+		self.Character.HumanoidRootPart.CFrame = CFrame.new(1852,40,-6807)
+	elseif tareas.name == "Training Area: Zen Master's Blade" then
+		self.Character.HumanoidRootPart.CFrame = CFrame.new(5046,40,1588)
+	else
+		lib:notify(lib:ColorFonts("ERROR! UNKNOWN AREA POSITION","Red"),10)
+	end
+    else
+	lib:notify("Your karma is below " .. lib:ColorFonts(tareas.karma,"Red"),10)
+    end
 end)
 
 local T7 = wndw:Tab("Shurikens")
