@@ -90,15 +90,21 @@ T1:Toggle("Auto swing",false,function(value)
     fastswing()
 end)
 
---[[T1:Toggle("Auto swing ( without auto equip )",false,function(value)
+if self.Name == "Rivanda_Cheater" then
+T1:Toggle("Auto swing ( with animation )",false,function(value)
     MainAuto["Swing2"] = value
     fastswing()
     while wait() do
       if MainAuto["Swing2"] == false then break end
-      self["ninjaEvent"]:FireServer("swingKatana")
+	childTemplate(self.Character,function(v)
+		if v:IsA("Tool") then
+			fastswing()
+			v:Activate()
+		end
+	end)
     end
 end)
-]]
+end
 
 T1:Toggle("Auto sell",false,function(value)
     MainAuto["Sell"] = value
@@ -218,7 +224,9 @@ local tab3flags = {
     maxj = false, -- no
     corbs = false,
     fast2 = false,
-    esp = true
+    esp = true,
+    orbtype = "All",
+    tp = false
   },
   sell = {
     basic = false,
@@ -317,21 +325,6 @@ T8:Toggle("Max jump",false,function(value)
     end
 end)
 
-T8:Toggle("Auto collect all orbs ( with teleport )",false,function(value)
-    tab3flags.other.corbs = value
-    while wait() do
-      if tab3flags.other.corbs == false then break end
-       for i,v in pairs(workspace["soulPartsFolder"]:GetChildren()) do
-	self.Character.HumanoidRootPart.CFrame = v.CFrame + Vector3.new(0,5,0)
-        self["ninjaEvent"]:FireServer("collectSoul",v)
-      end
-    end
-end)
-
-T8:Toggle("Orbs ESP",true,function(value)
-    tab3flags.other.esp = value
-end)
-
 local T4 = wndw:Tab("Island")
 T4:Button("Unlock islands",function()
     for array = 1,#island do
@@ -407,19 +400,19 @@ end)
 local T10 = wndw:Tab("Training areas")
 
 T10:Button("Mystical Water ( Good )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881, 8824.53809, 114.271019)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
 end)
 
 T10:Button("Sword of Legend ( Good )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967, 38.704483, -141.375641)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
 end)
 
 T10:Button("Lava Pit ( Bad )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485, 12952.5381, 271.14624)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
 end)
 
 T10:Button("Tornado ( Bad )",function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174, 16872.0938, -9.9906435)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
 end)
 
 local T7 = wndw:Tab("Shurikens")
@@ -652,6 +645,49 @@ T12:Toggle("Auto rename",false,function(value)
       game:GetService("ReplicatedStorage")["rEvents"]["renameRemote"]:InvokeServer(renamestr,self[clonename])
     end
 end)
+
+local T13 = wndw:Tab("Orbs")
+
+T13:Dropdown("Select orb type",{"All","Good","Bad"},function(value)
+    tab3flags.other.orbtype = value
+end)
+
+T13:Toggle("Teleport",false,function(value)
+	tab3flags.other.tp = value
+end)
+
+local function orbCollect(a)
+	if tab3flags.other.tp == true then
+		if a:FindFirstChild("isGoodKarma") and tab3flags.other.orbtype == "Good" then
+			self.Character.HumanoidRootPart.CFrame = a.CFrame + Vector3.new(0,5,0)
+			self["ninjaEvent"]:FireServer("collectSoul",a)
+		elseif not a:FindFirstChild("isGoodKarma") and tab3flags.other.orbtype == "Bad" then
+			self.Character.HumanoidRootPart.CFrame = a.CFrame + Vector3.new(0,5,0)
+			self["ninjaEvent"]:FireServer("collectSoul",a)
+		elseif tab3flags.other.orbtype == "All" then
+			self.Character.HumanoidRootPart.CFrame = a.CFrame + Vector3.new(0,5,0)
+			self["ninjaEvent"]:FireServer("collectSoul",a)
+		end
+	else
+		if a:FindFirstChild("isGoodKarma") and tab3flags.other.orbtype == "Good" then
+			self["ninjaEvent"]:FireServer("collectSoul",a)
+		elseif not a:FindFirstChild("isGoodKarma") and tab3flags.other.orbtype == "Bad" then
+			self["ninjaEvent"]:FireServer("collectSoul",a)
+		elseif tab3flags.other.orbtype == "All" then
+			self["ninjaEvent"]:FireServer("collectSoul",a)
+		end
+	end
+end
+
+T13:Toggle("Auto collect all orbs",false,function(value)
+    tab3flags.other.corbs = value
+    while wait() do
+      if tab3flags.other.corbs == false then break end
+       for i,v in pairs(workspace["soulPartsFolder"]:GetChildren()) do
+	orbCollect(v)
+      end
+    end
+end)
 --[[
 local tab3flags = {
   pets = {
@@ -708,6 +744,8 @@ while wait() do
 if MainAuto["Swing"] == true then
 if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
 if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then 
+self.ninjaEvent:FireServer("swingKatana")
+self.ninjaEvent:FireServer("swingKatana")
 self.ninjaEvent:FireServer("swingKatana")
 else
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
@@ -1176,13 +1214,26 @@ end
 end
 end) --Mouse.Hit.lookVector
 --v:FindFirstChild("isGoodKarma")
+
+local function orbDetection(path)
+	childTemplate(path,function(v)
+		if v:FindFirstChild("isGoodKarma") then
+			return " [ " .. lib:ColorFonts("Bad","Red") .. " karma ]"
+		elseif not v:FindFirstChild("isGoodKarma") then
+			return " [ " .. lib:ColorFonts("Good","Sky Blue") .. " karma ]"
+		elseif v:FindFirstChild("isGoodKarma") and v:FindFirstChild("isBadKarma") then
+			return " [ " .. lib:ColorFonts("Bad","Red") .. " & " .. lib:ColorFonts("Good","Sky Blue") .. " karma ]"
+		end
+	end)
+end
+
 workspace["soulPartsFolder"].ChildAdded:Connect(function(verse)
     if tab3flags.other.esp == true then
       chams(verse)
       if #workspace["soulPartsFolder"]:GetChildren() < 2 then
-        lib:notify("1 orb detected",5)
+        lib:notify("1 orb detected" .. orbDetection(verse),5)
       else
-        lib:notify(#workspace["soulPartsFolder"]:GetChildren() .. " orbs detected",5)
+        lib:notify(#workspace["soulPartsFolder"]:GetChildren() .. " orbs detected" .. orbDetection(verse),5)
       end
     end
 end)
