@@ -263,7 +263,7 @@ local tab3flags = {
   }
 }
 
-local price = T3:Label(lib:ColorFonts("Error ReturnValue","Red"))
+--local price = T3:Label(lib:ColorFonts("Error ReturnValue","Red"))
 T3:Dropdown("Eggs",handleegg,function(value)
     tab3flags.pets.egg = value
 end)
@@ -754,8 +754,8 @@ T13:Toggle("Auto collect all orbs",false,function(value)
     end
 end)
 
-local T14 = wndw:Tab("User Information")
-local info = T14:Label(lib:ColorFonts("Failed to load information","Red"))
+--local T14 = wndw:Tab("User Information")
+--local info = T14:Label(lib:ColorFonts("Failed to load information","Red"))
 --[[
 local tab3flags = {
   pets = {
@@ -1283,18 +1283,6 @@ end
 end) --Mouse.Hit.lookVector
 --v:FindFirstChild("isGoodKarma")
 
-local function orbDetection(path)
-	childTemplate(path,function(v)
-		if v:FindFirstChild("isGoodKarma") then
-			return " [ " .. lib:ColorFonts("Bad","Red") .. " karma ]"
-		elseif not v:FindFirstChild("isGoodKarma") then
-			return " [ " .. lib:ColorFonts("Good","Sky Blue") .. " karma ]"
-		elseif v:FindFirstChild("isGoodKarma") and v:FindFirstChild("isBadKarma") then
-			return " [ " .. lib:ColorFonts("Bad","Red") .. " & " .. lib:ColorFonts("Good","Sky Blue") .. " karma ]"
-		end
-	end)
-end
-
 workspace["soulPartsFolder"].ChildAdded:Connect(function(verse)
     if tab3flags.other.esp == true then
       chams(verse)
@@ -1306,12 +1294,13 @@ workspace["soulPartsFolder"].ChildAdded:Connect(function(verse)
     end
 end)
 
-task.spawn(function()
+--[[task.spawn(function()
 	lib:runtime(function()
 		price:EditLabel("Egg name : " .. lib:ColorFonts(tab3flags.pets.egg,"Red") .. "\nPrice : " .. lib:ColorFonts(game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].price.Value,"Red") .. "\nCurrency type : " .. lib:ColorFonts(game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].priceType.Value,"Red"))
 		info:EditLabel("Current rank : " .. lib:ColorFonts(self.equippedRank.Value,"Red") .. "\nCurrent belt : " .. lib:ColorFonts(self.equippedBelt.Value,"Red") .. "\nCurrent sword : " .. lib:ColorFonts(self.equippedSword.Value,"Red"))
 	end)
 end)
+]]
 
 lib:notify("Success... Enjoy!",10)
 local vu = game:GetService("VirtualUser")
