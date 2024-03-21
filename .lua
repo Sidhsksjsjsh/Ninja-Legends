@@ -15,7 +15,7 @@ local MainAuto = {
   ["Swing2"] = false
 } -- :)
 
-local wndw = lib:Window("VIP Turtle Hub V4 - " .. lib:ColorFonts("i miss my ex :(","Red"))
+local wndw = lib:Window("VIP Turtle Hub V4 - " .. lib:ColorFonts("♥️ alya ♥️","Pink"))
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
@@ -459,25 +459,21 @@ T10:Dropdown("Choose area",training,function(value)
 end)
 
 T10:Button("Teleport",function()
-    if self.Karma.Value > tareas.karma then
-	if tareas.name == "Training Area: Mystical Water" then
-		self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
-	elseif tareas.name == "Training Area: Sword of Legend" or tareas.name == "Training Area: Sword Of Legend" then
-		self.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
-	elseif tareas.name == "Training Area: Lava Pit" then
-		self.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
-	elseif tareas.name == "Training Area: Tornado" then
-		self.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
-	elseif tareas.name == "Training Area: Fallen Infinity Blade" then
-		self.Character.HumanoidRootPart.CFrame = CFrame.new(1852,40,-6807)
-	elseif tareas.name == "Training Area: Zen Master's Blade" then
-		self.Character.HumanoidRootPart.CFrame = CFrame.new(5046,40,1588)
-	else
-		lib:notify(lib:ColorFonts("ERROR! UNKNOWN AREA POSITION ( error : load_local_area_position )","Red"),10)
-	end
-    else
-	lib:notify("Your karma is below " .. lib:ColorFonts(tareas.karma,"Red"),10)
-    end
+    if tareas.name == "Training Area: Mystical Water" then
+	self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
+elseif tareas.name == "Training Area: Sword of Legend" or tareas.name == "Training Area: Sword Of Legend" then
+	self.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
+elseif tareas.name == "Training Area: Lava Pit" then
+	self.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
+elseif tareas.name == "Training Area: Tornado" then
+	self.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
+elseif tareas.name == "Training Area: Fallen Infinity Blade" then
+	self.Character.HumanoidRootPart.CFrame = CFrame.new(1852,40,-6807)
+elseif tareas.name == "Training Area: Zen Master's Blade" then
+	self.Character.HumanoidRootPart.CFrame = CFrame.new(5046,40,1588)
+else
+	lib:notify(lib:ColorFonts("ERROR! UNKNOWN AREA POSITION ( error : load_selected_area_position )","Red"),10)
+end
 end)
 
 local T7 = wndw:Tab("Shurikens")
