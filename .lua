@@ -15,7 +15,7 @@ local MainAuto = {
   ["Swing2"] = false
 } -- :)
 
-local wndw = lib:Window("VIP Turtle Hub V4 - Service activation failed #404")
+local wndw = lib:Window("VIP Turtle Hub V4 - " .. lib:ColorFonts("i miss my ex :(","Red"))
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
