@@ -439,10 +439,10 @@ local tareas = {
 	name = "null"
 }
 
-local function addNumber(type)
-	if type == "Dark" then
+local function addNumber(typev)
+	if typev == "Dark" then
 		tareas.karma = game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"][tareas.name]["karmaPrice"].Value
-	elseif type == "Light" then
+	elseif typev == "Light" then
 		tareas.karma = game:GetService("ReplicatedStorage")["Light Skills"]["Ground"][tareas.name]["karmaPrice"].Value
 	else
 		lib:notify(lib:ColorFonts("Invalid skill type","Red"),10)
