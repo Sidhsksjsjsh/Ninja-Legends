@@ -417,29 +417,13 @@ end)
 
 local T10 = wndw:Tab("Training areas")
 
---[[T10:Button("Mystical Water ( Good )",function()
-    self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
-end)
-
-T10:Button("Sword of Legend ( Good )",function()
-    self.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
-end)
-
-T10:Button("Lava Pit ( Bad )",function()
-    self.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
-end)
-
-T10:Button("Tornado ( Bad )",function()
-    self.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174,16872.0938,-9.9906435)
-end)]]
-
 local tareas = {
 	karma = 0,
 	type = "null",
 	name = "null"
 }
 
-local function addNumber(typev)
+function addNumber(typev)
 	if typev == "Dark" then
 		tareas.karma = game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"][tareas.name]["karmaPrice"].Value
 	elseif typev == "Light" then
@@ -449,7 +433,7 @@ local function addNumber(typev)
 	end
 end
 
-local function getAreastype(name)
+function getAreastype(name)
 	local success,haha = pcall(function()
 		if game:GetService("ReplicatedStorage")["Dark Skills"]["Ground"][name]["karmaPrice"].Value:sub(1,1) == "-" then
 			tareas.type = "Bad karma"
