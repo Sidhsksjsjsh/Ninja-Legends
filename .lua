@@ -470,7 +470,7 @@ local function getAreastype(name)
 	end
 end
 
-T10:Dropdown("Eggs",training,function(value)
+T10:Dropdown("Choose area",training,function(value)
     tareas.name = value
     getAreastype(value)
 end)
@@ -1325,8 +1325,8 @@ end)
 
 task.spawn(function()
 	lib:runtime(function()
-		price:EditLabel(string.format("Egg name : %s\nPrice : %s\nCurrency type : ",tab3flags.pets.egg,game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].price.Value,game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].priceType.Value))
-		info:EditLabel(string.format("Current rank : " .. lib:ColorFonts("%s","Red") .. "\nCurrent belt : " .. lib:ColorFonts("%s","Red") .. "\nCurrent sword : " .. lib:ColorFonts("%s","Red"),self.equippedRank.Value,self.equippedBelt.Value,self.equippedSword.Value))
+		price:EditLabel("Egg name : " .. lib:ColorFonts(tab3flags.pets.egg,"Red") .. "\nPrice : " .. lib:ColorFonts(game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].price.Value,"Red") .. "\nCurrency type : " .. lib:ColorFonts(game.ReplicatedStorage.crystalPrices[tab3flags.pets.egg,game].priceType.Value,"Red"))
+		info:EditLabel("Current rank : " .. lib:ColorFonts(self.equippedRank.Value,"Red") .. "\nCurrent belt : " .. lib:ColorFonts(self.equippedBelt.Value,"Red") .. "\nCurrent sword : " .. lib:ColorFonts(self.equippedSword.Value,"Red"))
 	end)
 end)
 
