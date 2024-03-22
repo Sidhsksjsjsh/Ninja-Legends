@@ -23,6 +23,9 @@ local island = {"Ground"}
 local handleegg = {}
 local petHandler = {}
 local training = {}
+local BindableEvent = Instance.new("BindableEvent")
+BindableEvent.Name = "Turtle Script handler"
+BindableEvent.Parent = self
 
 lib:AddTable(workspace.islandUnlockParts,island)
 lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
@@ -39,6 +42,13 @@ for i,set in pairs(game:GetService("ReplicatedStorage")["Light Skills"]["Ground"
 		table.insert(training,set.Name)
 	end
 end
+
+BindableEvent.Event:Connect(function(...)
+    local args = {...}
+    if args[1] == "elements" then
+	print(".")
+    end
+end)
 
 local function getPlayers(funct)
   for i,v in pairs(game.Players:GetPlayers()) do
