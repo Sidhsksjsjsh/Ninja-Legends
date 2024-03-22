@@ -45,8 +45,8 @@ end
 
 BindableEvent.Event:Connect(function(...)
     local args = {...}
-    if args[1] == "elements" then
-	print(".")
+    if args[1] == "msg" then
+	lib:notify(args[2],10)
     end
 end)
 
@@ -1350,7 +1350,7 @@ end)
 end)
 ]]
 
-lib:notify("Success... Enjoy!",10)
+BindableEvent:Fire("msg","Turtle service is unavailable... try again")
 local vu = game:GetService("VirtualUser")
 self.Idled:connect(function()
 lib:notify("Player is afk... manipulating server detection.",10)
