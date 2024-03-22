@@ -23,9 +23,9 @@ local island = {"Ground"}
 local handleegg = {}
 local petHandler = {}
 local training = {}
-local BindableEvent = Instance.new("BindableEvent")
-BindableEvent.Name = "Turtle Script handler"
-BindableEvent.Parent = self
+local event = Instance.new("BindableEvent")
+event.Name = "Turtle Script handler"
+event.Parent = self
 
 lib:AddTable(workspace.islandUnlockParts,island)
 lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
@@ -43,20 +43,29 @@ for i,set in pairs(game:GetService("ReplicatedStorage")["Light Skills"]["Ground"
 	end
 end
 
-BindableEvent.Event:Connect(function(...)
+event.Event:Connect(function(...)
     local args = {...}
     if args[1] == "msg" then
 	lib:notify(args[2],10)
     elseif args[1] == "getPlayers" then
 	for i,v in pairs(game.Players:GetPlayers()) do
-		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) then
+		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) and type(args[3]) == "function" then
 			args[3](v)
 		end
 	end
     elseif args[1] == "getPlayersPosition" then
 	for i,v in pairs(game.Players:GetPlayers()) do
-		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) then
+		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) and type(args[3]) == "function" then
 			args[3](v.Character.HumanoidRootPart.Position)
+		end
+	end
+     elseif args[1] == "checkPlayers" then
+	for i,v in pairs(game.Players:GetPlayers()) do
+		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) and type(args[3]) == "function" then
+			lib:notify("Player found.",10)
+			args[3](v.Name)
+		else
+			lib:notify("Player not found",10)
 		end
 	end
     end
@@ -522,12 +531,20 @@ local shursys = {
   inf = false,
   range = 150,
   userange = true,
-  boss = false
+  boss = false,
+  plr = "",
+  splayer = false
 }
 --getPlayers(funct
-
+--checkPlayers
 T7:Slider("Aimbot range ( the default is 150 )",0,1000,shursys.range,function(value)
     shursys.range = tonumber(value)
+end)
+
+T7:Textbox("Insert player DisplayName",false,function(value)
+	event:Fire("checkPlayers",value,function(v)
+		shursys.plr = v
+	end)
 end)
 
 if self.Name == "Rivanda_Cheater" then
@@ -535,6 +552,10 @@ T7:Toggle("Use range",shursys.userange,function(value)
     shursys.userange = value
 end)
 end
+
+T7:Toggle("Selected player",false,function(value)
+    shursys.splayer = value
+end)
 
 T7:Toggle("Auto throw + tracking + fast ( Range )",false,function(value)
     shursys.aimbot = value
@@ -547,17 +568,23 @@ T7:Toggle("Auto throw + tracking + fast ( Range )",false,function(value)
     
     while wait() do
       if shursys.aimbot == false then break end
-      getPlayers(function(v)
-          if v.Name ~= self.Name then
-            if shursys.userange == true then
-              if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
-                self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
-              end
-            else
-              self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
-            end
-          end
-      end)
+	if shursys.splayer == true then
+		event:Fire("getPlayersPosition",shursys.plr,function(v)
+			self["ninjaEvent"]:FireServer("attackShuriken",v)
+		end)
+	else
+		getPlayers(function(v)
+			if v.Name ~= self.Name then
+				if shursys.userange == true then
+					if (v.Character.HumanoidRootPart.Position - self.Character.HumanoidRootPart.Position).Magnitude < shursys.range then
+						self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+					end
+				else
+					self["ninjaEvent"]:FireServer("attackShuriken",v.Character.HumanoidRootPart.Position)
+				end
+			end
+		end)
+	end
     end
 end)
 --workspace.bossFolder
@@ -1362,7 +1389,7 @@ end)
 end)
 ]]
 
-BindableEvent:Fire("msg","Turtle service is unavailable... try again")
+event:Fire("msg","Turtle service is unavailable... try again")
 local vu = game:GetService("VirtualUser")
 self.Idled:connect(function()
 lib:notify("Player is afk... manipulating server detection.",10)
