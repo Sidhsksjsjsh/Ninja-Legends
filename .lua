@@ -43,6 +43,12 @@ for i,set in pairs(game:GetService("ReplicatedStorage")["Light Skills"]["Ground"
 	end
 end
 
+local function childTemplate(path,funct)
+  for i,v in pairs(path:GetChildren()) do
+    funct(v)
+  end
+end
+
 event.Event:Connect(function(...)
     local args = {...}
     if args[1] == "msg" then
@@ -68,17 +74,21 @@ event.Event:Connect(function(...)
 			lib:notify("Player not found",10)
 		end
 	end
+     elseif args[1] == "convert" then
+	game:GetService("ReplicatedStorage")["rEvents"]["zenMasterEvent"]:FireServer("convertGems",args[2])
+     elseif args[1] == "spin" then
+	game:GetService("ReplicatedStorage")["rEvents"]["openFortuneWheelRemote"]:InvokeServer("openFortuneWheel",workspace["Fortune Wheel"])
+     elseif args[1] == "equip_all_sword" then
+	childTemplate(game:GetService("ReplicatedStorage").Weapons,function(v)
+		childTemplate(v,function(i)
+			self["ninjaEvent"]:FireServer("equipSword",i.Name)
+		end)
+	end)
     end
 end)
 
 local function getPlayers(funct)
   for i,v in pairs(game.Players:GetPlayers()) do
-    funct(v)
-  end
-end
-
-local function childTemplate(path,funct)
-  for i,v in pairs(path:GetChildren()) do
     funct(v)
   end
 end
@@ -287,7 +297,10 @@ local tab3flags = {
     fast2 = false,
     esp = true,
     orbtype = "All",
-    tp = false
+    tp = false,
+    spin = false,
+    convert10m = false,
+    convert10k = false
   },
   sell = {
     basic = false,
@@ -384,7 +397,7 @@ T8:Toggle("Max jump",false,function(value)
     tab3flags.other.maxj = value
     while wait() do
       if tab3flags.other.maxj == false then break end
-       self.multiJumpCount.Value = "999999999999"
+       self.multiJumpCount.Value = 999999999999
     end
 end)
 
@@ -398,9 +411,37 @@ end)
 
 self.PlayerGui.statEffectsGui.Enabled = true
 self.PlayerGui.hoopGui.Enabled = true
-T8:Toggle("Toggle popups",true,function(value)
+T8:Toggle("Toggle popups",false,function(value)
     self.PlayerGui.statEffectsGui.Enabled = value
     self.PlayerGui.hoopGui.Enabled = value
+end)
+
+T8:Toggle("Auto spin",false,function(value)
+	tab3flags.other.spin = value
+	while wait() do
+		if tab3flags.other.spin == false then break end
+			event:Fire("spin")
+	end
+end)
+
+T8:Toggle("Auto convert 10m gems",false,function(value)
+	tab3flags.other.convert10m = value
+	while wait() do
+		if tab3flags.other.convert10m == false then break end
+			event:Fire("convert",10000000)
+	end
+end)
+
+T8:Toggle("Auto convert 10k gems",false,function(value)
+	tab3flags.other.convert10k = value
+	while wait() do
+		if tab3flags.other.convert10k == false then break end
+			event:Fire("convert",10000)
+	end
+end)
+
+T8:Button("Equip current sword",function()
+	event:Fire("equip_all_sword")
 end)
 
 -- Teleports
