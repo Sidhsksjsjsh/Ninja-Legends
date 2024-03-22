@@ -184,7 +184,8 @@ local tab2flags = {
   rank = false,
   skill = false,
   shuriken = false,
-  zone = island[1]
+  zone = island[1],
+  elements = ""
 }
 
 local T2 = wndw:Tab("Buy")
@@ -215,6 +216,16 @@ end)
 --local Shuriken = AutoBuy:Toggle("Auto-Shurikens", {flag = "Shurikens"}) AutoBuy.flags.Shurikens
 T2:Toggle("Auto buy shuriken",false,function(value)
     tab2flags.shuriken = value
+end)
+
+T2:Toggle("Auto unlock all elements ",false,function(value)
+    tab2flags.elements = value
+	while wait() do
+		if tab2flags.elements == false then break end
+			childTemplate(game:GetService("ReplicatedStorage")["Elements"],function(v)
+				game:GetService("ReplicatedStorage")["rEvents"]["elementMasteryEvent"]:FireServer(v.Name)
+			end)
+	end
 end)
 
 --[[_G.Enabled = AutoBuy.flags.Purchase
