@@ -47,6 +47,18 @@ BindableEvent.Event:Connect(function(...)
     local args = {...}
     if args[1] == "msg" then
 	lib:notify(args[2],10)
+    elseif args[1] == "getPlayers" then
+	for i,v in pairs(game.Players:GetPlayers()) do
+		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) then
+			args[3](v)
+		end
+	end
+    elseif args[1] == "getPlayersPosition" then
+	for i,v in pairs(game.Players:GetPlayers()) do
+		if (string.sub(string.lower(v.DisplayName),1,string.len(args[2]))) == string.lower(args[2]) then
+			args[3](v.Character.HumanoidRootPart.Position)
+		end
+	end
     end
 end)
 
