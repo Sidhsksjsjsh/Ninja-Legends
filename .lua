@@ -562,7 +562,7 @@ end)
 
 local T11 = wndw:Tab("Sell pets")
 
-T11:Dropdown("Choose a pet",petHandler,function(value)
+local cnull = T11:Dropdown("Choose a pet",petHandler,function(value)
     tab3flags.sell.name = value
 end)
 
@@ -574,7 +574,6 @@ T11:Toggle("Sell selected pet",false,function(value)
     end
 end)
 
-if self.Name == "Rivanda_Cheater" then
 T11:Toggle("Sell all pets ( except selected pet )",false,function(value)
     tab3flags.sell.exc = value
 	if tab3flags.sell.name ~= petHandler[1] then
@@ -585,9 +584,19 @@ T11:Toggle("Sell all pets ( except selected pet )",false,function(value)
 		end
 	else
 		lib:notify(lib:ColorFonts("runtime error : selected pet is null, choose 1 pet and try again","Red"),10)
+		cnull:EditText(lib:ColorFonts("Choose a pet - null","Red"))
+		wait(0.2)
+		cnull:EditText(lib:ColorFonts("Choose a pet - null","White"))
+		wait(0.2)
+		cnull:EditText(lib:ColorFonts("Choose a pet - null","Red"))
+		wait(0.2)
+		cnull:EditText(lib:ColorFonts("Choose a pet - null","White"))
+		wait(0.2)
+		cnull:EditText(lib:ColorFonts("Choose a pet - null","Red"))
+		wait(0.2)
+		cnull:EditText(lib:ColorFonts("Choose a pet - null","White"))
 	end
 end)
-end
 
 T11:Toggle("Sell basics",false,function(value)
     tab3flags.sell.basic = value
