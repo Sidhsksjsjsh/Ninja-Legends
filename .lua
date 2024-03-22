@@ -58,12 +58,18 @@ local function sellPets(path)
   end)
 end
 
-local function SpecificPetsSell(name)
+local function SpecificPetsSell(intgr,name)
   childTemplate(self.petsFolder,function(attach)
       childTemplate(attach,function(inject)
+	if intgr == "Specific" then
           if inject.Name == name then
             game:GetService("ReplicatedStorage")["rEvents"]["sellPetEvent"]:FireServer("sellPet",inject)
           end
+	elseif intgr == "Exception" then
+	  if inject.Name ~= name then
+            game:GetService("ReplicatedStorage")["rEvents"]["sellPetEvent"]:FireServer("sellPet",inject)
+          end
+	end
       end)
   end)
 end
@@ -259,7 +265,8 @@ local tab3flags = {
     ["q-strike"] = false,
     skyblade = false,
     sp = false,
-    name = petHandler[1]
+    name = petHandler[1],
+    exc = false
   }
 }
 
@@ -461,7 +468,7 @@ end)
 T10:Button("Teleport",function()
     if tareas.name == "Training Area: Mystical Water" then
 	self.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881,8824.53809,114.271019)
-elseif tareas.name == "Training Area: Sword of Legend" or tareas.name == "Training Area: Sword Of Legend" then
+elseif tareas.name == "Training Area: Sword of Legends" or tareas.name == "Training Area: Sword Of Legends" then
 	self.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967,38.704483,-141.375641)
 elseif tareas.name == "Training Area: Lava Pit" then
 	self.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485,12952.5381,271.14624)
@@ -563,9 +570,24 @@ T11:Toggle("Sell selected pet",false,function(value)
     tab3flags.sell.sp = value
     while wait() do
       if tab3flags.sell.sp == false then break end
-      SpecificPetsSell(tab3flags.sell.name)
+      SpecificPetsSell("Specific",tab3flags.sell.name)
     end
 end)
+
+if self.Name == "Rivanda_Cheater" then
+T11:Toggle("Sell all pets ( except selected pet )",false,function(value)
+    tab3flags.sell.exc = value
+	if tab3flags.sell.name ~= petHandler[1] then
+		lib:notify("Selling all pets ( except '" .. lib:ColorFonts(tab3flags.sell.name,"Red") .. "' )",10)
+		while wait() do
+		if tab3flags.sell.exc == false then break end
+			SpecificPetsSell("Exception",tab3flags.sell.name)
+		end
+	else
+		lib:notify(lib:ColorFonts("runtime error : selected pet is null, choose 1 pet and try again","Red"),10)
+	end
+end)
+end
 
 T11:Toggle("Sell basics",false,function(value)
     tab3flags.sell.basic = value
