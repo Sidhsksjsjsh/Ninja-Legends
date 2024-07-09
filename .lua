@@ -27,7 +27,7 @@ local event = Instance.new("BindableEvent")
 event.Name = "Turtle Script handler"
 event.Parent = self
 
-lib:AddTable(workspace.islandUnlockParts,island)
+lib:AddTable(workspace["islandUnlockParts"],island)
 lib:AddTable(game:GetService("ReplicatedStorage")["crystalChances"],handleegg)
 lib:AddTable(game:GetService("ReplicatedStorage")["cPetShopFolder"],petHandler)
 
@@ -936,27 +936,27 @@ local MainAuto = {
 ]]
 
 spawn(function()
-while wait() do
-if MainAuto["Swing"] == true then
-if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
-if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then 
-self.ninjaEvent:FireServer("swingKatana")
-self.ninjaEvent:FireServer("swingKatana")
-self.ninjaEvent:FireServer("swingKatana")
-else
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("attackShurikenScript") then 
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-wait()
-if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then 
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)                            
-end
-end
-end
-end
-end
-end
-end
+	while wait() do
+		if MainAuto["Swing"] == true then
+			if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+				if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then 
+					self.ninjaEvent:FireServer("swingKatana")
+					self.ninjaEvent:FireServer("swingKatana")
+					self.ninjaEvent:FireServer("swingKatana")
+				else
+					for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+						if v.ClassName == "Tool" and v:FindFirstChild("attackShurikenScript") then 
+							game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+							wait()
+							if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then 
+								game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)                            
+							end
+						end
+					end
+				end
+			end
+		end
+	end
 end)
 
 spawn(function()
