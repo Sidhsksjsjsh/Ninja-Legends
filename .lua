@@ -15,7 +15,7 @@ local MainAuto = {
   ["Swing2"] = false
 } -- :)
 
-local wndw = lib:Window("VIP Turtle Hub V4 - " .. lib:ColorFonts("♥️ alya ♥️","Pink"))
+local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local self = game.Players.LocalPlayer
 local workspace = game:GetService("Workspace")
@@ -128,11 +128,11 @@ local function chams(str)
 end
 
 local function fastswing()
-childTemplate(self.Backpack,function(v)
-	if v:FindFirstChild("attackTime") then
-	  v.attackTime.Value = 0
-	end
-end)
+	childTemplate(self.Backpack,function(v)
+		if v:FindFirstChild("attackTime") then
+			v.attackTime.Value = 0
+		end
+	end)
 end
 
 --[[
@@ -1429,6 +1429,8 @@ end)
 	end)
 end)
 ]]
+
+lib.DeveloperEncrypt(wndw)
 
 event:Fire("msg","Turtle service is unavailable... try again")
 local vu = game:GetService("VirtualUser")
