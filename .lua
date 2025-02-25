@@ -409,8 +409,8 @@ T4:Button("Unlock islands",function()
     end
 end)
 
-self.PlayerGui.statEffectsGui.Enabled = true
-self.PlayerGui.hoopGui.Enabled = true
+self.PlayerGui.statEffectsGui.Enabled = false
+self.PlayerGui.hoopGui.Enabled = false
 T8:Toggle("Toggle popups",false,function(value)
     self.PlayerGui.statEffectsGui.Enabled = value
     self.PlayerGui.hoopGui.Enabled = value
